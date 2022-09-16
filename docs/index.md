@@ -8,4 +8,4 @@ https://users.iit.uni-miskolc.hu/~toth130
 Az órák számozása nem függ össze azzal, hogy hányadik heti gyakorlaton kerül leadásra az anyag.
 
 ## Órák:
-- [1. óra](/BashExamples/docs/lesson1)
+- [1. óra](/BashExamples/lesson1)
