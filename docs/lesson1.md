@@ -165,4 +165,5 @@ cd ~/Pictures
 ## 2. feladat (önálló)
 Töröljük a létrehozott `SzArGyak` és `lesson1` mappákat az `rmdir` (= remove directory)
 paranccsal, utána hozzuk létre ismét, de ezúttal egyetlen parancskiadással. Hint:
-a `mkdir` manuáljában van a megoldás módja (egy kapcsoló kell).
+a `mkdir` manuáljában van a megoldás módja (egy kapcsoló kell), de az internet is nagyon
+sokat segíthet a megoldásban.
