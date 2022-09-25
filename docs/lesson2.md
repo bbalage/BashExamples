@@ -132,5 +132,56 @@ cat people.csv | grep "IT" # the first one... do the rest!
 
 ### 4. feladat
 Írjunk egy scriptet, amely leszed a következő url-ről egy text file-t, majd kiírja belőle 
-a valid email címeket egy `emails.txt` fájlba!
+a valid email címeket egy `emails.txt` fájlba, aztán törli az eredetileg letöltött fájlt.
 
+Url: https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/file1.txt
+
+Az emails.txt fájl tartalma a következő kell legyen:
+```
+Jupici@gmail.com
+howard.wayland@citromail.hu
+ubuntu@gmail.com
+bestrapper@gmail.com
+ET@gmail.com
+harapos@gmail.com
+bob@gmail.com
+```
+
+**Help:** érdemes ránézni a `wget`, `cat`, `grep` és `rm` parancsokra.
+
+### 5. feladat
+Készítsünk egy scriptet, ami lefordít, majd lefuttat egy C programot, majd az eredményét és 
+a futási idejét egy fájlba írja, majd az eredményt felmásolja jerry-re.
+
+A program rendelkezzen a következő kóddal:
+
+```c
+// This should be in hello.c
+#include "stdio.h"
+
+int main()
+{
+    printf("Hello World!\n");
+}
+```
+
+A fordításhoz használjuk a `gcc` programot! A következőképpen:
+
+```bash
+gcc hello.c -o hello
+```
+
+A lefordított program ekkor a `hello` fájlba kerül. A futtatást a következőképpen vitelezhetjük
+ki:
+
+```bash
+./hello
+```
+
+Az idő mérésére alkalmas a `time` program. A jerry-re való felmásolást az `scp` programmal meg
+tudjuk oldani.
+
+**Önálló feladat:** Az internet segítségével találjuk meg, hogy a `time` program és a `hello`
+program outputját hogyan tudjuk egy fájlba irányítani! Trükkös, mert a `time` nem a standard 
+outputra ír, hanem a standard error streamre. Ezután keressük meg, hogy az `scp` programot 
+hogyan tudjuk használni!
