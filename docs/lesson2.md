@@ -1,10 +1,7 @@
 # 2. óra
 
-Ezen az órán további kisebb feladatokat fogunk megoldani. Néhány bezető példa után 
-igyekszek olyan feladatokra szorítkozni, amelyekhez hasonlóak a gyakorlatban is
-előfordulhatnak. Ennek megfelelően felvetődik
-a kérdés, hogy **mire jó a Bash?** A következő célokra a bash egy jól használható script
-nyelv:
+## Előzetes ismeretek
+Mire használják a Bash-t:
 - Rendszergazdai feladatok ellátása.
 - A munkánk során gyakran ismétlődő feladatsorozatok kötegelése. (Vagyis, ha én
 minden alkalommal, mikor eljutottam egy pontra a fejlesztésben 1. lefordítom a kódot, 2.
@@ -13,10 +10,7 @@ egy log fájlban rögzítem a futási időmet, akkor ezt a négy parancsot akár
 egyetlen Bash fájlba, és innentől mindig csak ezt a fájlt kell "lefuttatnom", hogy ez a 
 4 lépés végrehajtódjon.)
 
-Mielőtt azonban példákat oldunk meg, 
-pár előzetes ismeretet is szeretnék átadni a programok strukturálásával kapcsolatban.
 
-## Előzetes ismeretek
 ### Parancsok kombinálása
 Az Unix parancsok azt az elvet követik, hogy egy parancs egy lényegi feladatot hajtson végre, 
 de azt jól. Ennek megfelelően, ha komplexebb feladatot akarunk végrehajtani, akkor 
