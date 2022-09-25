@@ -104,24 +104,33 @@ cat hello.txt # this command will print the content of hello.txt to the terminal
 Készítsünk nano segítségével egy csv fájlt! A csv fájl csak egy text fájl, amiben strukturálva
 vannak az adatok, nagyjából úgy, mint egy táblázatban. Például:
 ```
-Name;Birthdate;Skill
-Robert Bob;1997.09.12.;IT
-Zsuber Driver;1988.10.11.;Driving
-Hatori Hanso;1966.01.11.;Smithing
-Rinaldo Orson;2001.05.24.;IT
-Travis Camel;1970.10.01.;Horses
-Dagobert McChips;1956.08.31.;Cooking
+Name;Birthdate;Phone;Skill
+Robert Bob;1997.09.12.;06201975555;IT
+Zsuber Driver;1988.10.11.;06304445555;Driving
+Hatori Hanso;1966.01.11.;06301234555;Smithing
+Rinaldo Orson;2001.05.24.;06709330000;IT
+Travis Camel;1970.10.01.;06301717171;Horses
+Dagobert McChips;1956.08.31.;06700001111;Cooking
+Bumfolt Rupor;1967.09.11.;06201112233;Marketing
 ```
 
 A fönti tartalommal hozza létre a people.csv fájlt!
 
-Írassuk ki a következőket a terminálba:
+Írassuk ki a következőket a terminálba (egyetlen sornyi paranccsal):
 - Azokat a sorokat, ahol a személy ért az IT-hez.
-- Azokat a sorokat, ahol a személy neve R-rel kezdődik.
-- Az első 3 sort, a fejléccel együtt (a fejlév a Name;Birthdate;Skill sor).
-- Az első 3 sort, a fejléc nélkül.
+- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
+- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
+- Azokat a sorokat, ahol a telefonszám 30-as.
+- Azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
 - Azokat a sorokat, ahol a személy 2000-ben vagy utána született.
+- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
+- Az első 3 sort, a fejléc nélkül.
 
 ```bash
 cat people.csv | grep "IT" # the first one... do the rest!
 ```
+
+### 4. feladat
+Írjunk egy scriptet, amely leszed a következő url-ről egy text file-t, majd kiírja belőle 
+a valid email címeket egy `emails.txt` fájlba!
+
