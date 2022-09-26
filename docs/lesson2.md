@@ -66,7 +66,9 @@ kifejezésekkel, vagy ezeknek a kombinálásával!
 **Lépjünk be egy az órára létrehozott jegyzékünkbe (lesson2), és a feladatokat hajtsuk
 végre ott!**
 
-A feladatok megoldásai megtalálhatóak az alábbi mappában, viszont a megoldókulcsot igénylő
+A feladatok megoldásai megtalálhatóak az
+[alábbi mappában](https://github.com/bbalage/BashExamples/tree/master/bash/lesson2), viszont
+a megoldókulcsot igénylő
 feladatokhoz eleve odaírtam a megoldást is. Amelyiknél nincs megoldás, ott legalább a 
 próbálkozás és a jegyzetekben való utánaolvasás szükséges!
 
