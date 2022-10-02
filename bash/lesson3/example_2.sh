@@ -1,0 +1,5 @@
+x="Hello World"
+echo "${x}"
+echo "${#x}"
+echo "${x:0:7}"
+expr index "$x"
