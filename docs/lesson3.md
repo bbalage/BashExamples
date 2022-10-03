@@ -6,6 +6,8 @@ Az órához szükséges szintaktikai információk a következő linkeken talál
 
 A továbbiakban oldjunk meg feladatokat velük!
 
+A megoldások elérhetőek [itt](https://github.com/bbalage/BashExamples/tree/master/bash/lesson3).
+
 ## 1. feladat
 Hozzunk létre egy shell script fájlt, mely bemeneti paraméterként beolvas két számot, és kiírja
 az összegüket, különbségüket,
