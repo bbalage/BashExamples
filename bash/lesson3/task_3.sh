@@ -5,6 +5,11 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
+if [ ! -e $1 ]; then
+    echo "Input file does not exist." 1>&2
+    exit 1
+fi
+
 # The first parameter is the input file's name. We only clarify that here.
 input_file_name=$1
 echo "Input file name: $input_file_name"
