@@ -54,6 +54,19 @@ if [ ! -d build ]; then
 fi
 ```
 
+### 1.6. példa
+Az alábbi script ellenőrzi, hogy egy beolvasott adat numerikus-e, és hibát ír, ha nem.
+
+```bash
+read -p "Number: " num
+re='^[0-9]+$'
+
+if ! [[ $num =~ $re ]] ; then
+    echo "error: Not a number" 1>&2;
+    exit 1
+fi
+```
+
 ## 1. feladatcsoport
 Néhány gyakori parancs együttes használata. Plusz pontért megcsinálható feladatok.
 
@@ -184,26 +197,74 @@ done
 Ciklusok használata. Plusz pontért.
 
 ### 2.1. feladat
-
-Írjunk egy shell scriptet, ami bemeneti paraméterként egyetlen pozitív számot vár (hibát ír, ha nem)
-ezt kap. A program feladata, hogy kiírja, hogy a kapott szám prím-e.
+Írjunk egy shell scriptet, ami bemeneti paraméterként egyetlen pozitív számot vár (hibát ír, ha nem
+ezt kap). A program feladata, hogy kiírja, hogy a kapott szám prím-e.
 
 ### 2.2. feladat
 Írjunk egy shell scriptet, ami bemeneti paraméterként egy mappa nevét várja. Ha a mappa létezik,
-akkor minden benne lévő fájlra lefuttat egy scriptet, amely az alábbi tartalommal rendelkezik:
+akkor minden benne lévő .txt fájl tartalmát soronként megfordítja, és kiírja egy másik fájlba.
+
+## 3. Példakódcsoport
+Tömbök használata és létrehozás.
+
+### 3.1. példakód
+Létrehozunk tömbelemeket, és kiíratjuk őket. Ezt megcsináljuk többféleképpen.
 
 ```bash
-# TODO
+declare -a arr
+arr[0]=12
+arr[1]=3
+arr[2]=6
+
+for element in ${arr[*]}; do
+    echo $element
+done
 ```
 
-### 2.3. feladat
-Írjunk két shell scriptet, amelyek egymás "párjai".
+Másképpen:
 
-Az egyik shell script legenerálja az első 
-10 Fibonacci számot (1-től kezdődve), és kiírja ezeket a számokat egy 1-1 külön fájlba.
-A fájlok legyenek 1.txt, 2.txt, ..., 10.txt. A fájlok tartalma kizárólag a Fibonacci szám legyen,
-amit generáltunk hozzájuk. A fájlok egy külön mappában helyezkedjenek el.
+```bash
+declare -a arr=(12 3 6)
 
-A másik shell script kapjon meg mappát bemeneti paraméterként. A mappában talált összes `n.txt`
-szerkezetű fájlban növelje meg a szám értékét 1-gyel. A változtatás természetesen íródjon vissza a
-megfelelő fájlba!
+for ((i=0;i<${#arr[*]};++i)); do # ${#arr[*]} megadja nekünk a tömbelemek számát
+    echo ${arr[i]}
+done
+```
+
+Ezek kombinálhatók is.
+
+### 3.2. példakód
+Feltöltünk egy 10 elemű tömböt véletlen számokkal, majd végigmegyünk a számokon és megnöveljük
+őket 1-gyel.
+
+```bash
+declare -a arr
+
+for ((i=0; i<10; ++i)); do
+    arr[$i]=$((RANDOM % 100)) # random number from 0 to 99
+    printf "${arr[$i]} "
+done
+echo
+
+for ((i=0; i<10; ++i)); do
+    arr[$i]=$((arr[i] + 1))
+done
+
+for element in ${arr[*]}; do
+    printf "$element "
+done
+echo
+```
+
+## 3. feladatcsoport
+Tömbös feladatok plusz pontért.
+
+### 3.1. feladat
+Hozzunk létre egy N elemű tömböt, ahol N-t `read` paranccsal kérjük be, és ellenőrizzük, hogy 
+pozitív egész szám (hibával visszatérünk, ha nem az). Töltsük fel véletlen számokkal a tömböt,
+ahol a véletlen számok az \[1-100\] intervallumból kerülnek ki! Ezután végezzük el a következő
+műveleteket a tömbre:
+- Minimum elem kiíratása (hányadik elem és mi az értéke).
+- Maximum elem kiíratása (hányadik elem és mi az értéke).
+- Írjuk ki az elemek összegét.
+- Írjuk ki az elemek átlagát.
