@@ -1,6 +1,6 @@
 # 4. óra
-Ezen az órán az eddig tanultak alapján gyakorlófeladatokat csinálunk. A példakódok segítségre 
-szolgálnak. Bizonyos feladatoknál hasznosak lehetnek.
+Ezen az órán példakódok és utánuk feladatok lesznek. A példakódok a feladat megoldásában
+való segítségre szolgálnak. Bizonyos feladatoknál hasznosak lehetnek.
 
 ## 1. Példakód csoport
 
@@ -24,10 +24,11 @@ unzip example.zip -d dirname
 
 ### 1.3. példa
 Az alábbi script lefordít egy `hello.c` fájlnevű C fájlt, és a készült bináris parancsfájlt 
-`hello` néven kiírja a fájlrendszerre.
+`hello` néven kiírja a fájlrendszerre. A `hello` programot ezután futtatja.
 
 ```bash
-gcc hello.c -o hello
+gcc hello.c -o hello # Create hello as a runnable
+./hello # Run hello
 ```
 
 ### 1.4. példa
@@ -55,7 +56,8 @@ fi
 ```
 
 ### 1.6. példa
-Az alábbi script ellenőrzi, hogy egy beolvasott adat numerikus-e, és hibát ír, ha nem.
+Az alábbi script ellenőrzi, hogy egy beolvasott adat numerikus-e, ezen belül pozitív egész, és
+hibát ír, ha nem.
 
 ```bash
 read -p "Number: " num
@@ -159,7 +161,7 @@ echo $((RANDOM % 51 + 50)) # [50-100]
 
 ### 2.4 példa
 Az alábbi script bekéri `N` értékét, és kiírja az első `N` Fibonacci számot, ahol nullát vesszük a
-nulladik Fibonacci számnak. `N` legalább 1.
+nulladik Fibonacci számnak. `N` legalább 2.
 
 ```bash
 read -p "Please, give the valu of N (at least 2):" N
