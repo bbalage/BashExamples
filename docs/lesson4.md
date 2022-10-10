@@ -70,7 +70,7 @@ fi
 ```
 
 ## 1. feladatcsoport
-Néhány gyakori parancs együttes használata. Plusz pontért megcsinálható feladatok.
+Néhány gyakori parancs együttes használata.
 
 ### 1.1. feladat
 Az MVK Zrt. elérhetővé tesz egy szabványos GTFS adatbázist a fejlesztők számára, hogy a menetrendi 
@@ -86,6 +86,21 @@ wget, unzip (kitömörítésre), cat, grep
 verziót!
 - Ha egy mappába már korábban ki lett tömörítve a letöltött állomány, akkor az újbóli kitömörítés
 előtt szabaduljunk meg ennek a mappának a tartalmától!
+
+**Megoldás:**
+```bash
+if [ -e gtfs.zip ]; then
+    rm gtfs.zip
+fi
+
+if [ -d gtfs ]; then
+    rm -r gtfs
+fi
+
+wget "https://gtfsapi.mvkzrt.hu/gtfs/gtfs.zip"
+unzip gtfs.zip -d gtfs
+cat gtfs/routes.txt | grep "Centrum"
+```
 
 ### 1.2. feladat
 Írjunk egy shell script fájlt, amely lefordít egy paraméterként megadott .c fájlt, ha az létezik és
@@ -196,15 +211,48 @@ done
 ```
 
 ## 2. feladatcsoport
-Ciklusok használata. Plusz pontért.
+Ciklusok használata.
 
 ### 2.1. feladat
 Írjunk egy shell scriptet, ami bemeneti paraméterként egyetlen pozitív számot vár (hibát ír, ha nem
 ezt kap). A program feladata, hogy kiírja, hogy a kapott szám prím-e.
 
+**Megoldás:**
+```bash
+if [ $# -lt 1 ]; then 
+    echo "No number provided as input." 1>&2
+    exit 1
+fi
+
+num=$1
+re='^[0-9]+$'
+if ! [[ $num =~ $re ]] ; then
+    echo "error: Not a positive number." 1>&2;
+    exit 1
+fi
+
+if [ $num -le 1 ]; then
+    echo "Not prime."
+    exit 0
+fi
+
+square_root=$(echo "scale=0; sqrt($num)" | bc)
+
+for ((i=2;i<=square_root;++i)); do
+    if [ $((num % i)) -eq 0 ]; then
+        echo "Not prime."
+        exit 0
+    fi
+done
+
+echo "Prime."
+```
+
 ### 2.2. feladat
 Írjunk egy shell scriptet, ami bemeneti paraméterként egy mappa nevét várja. Ha a mappa létezik,
 akkor minden benne lévő .txt fájl tartalmát soronként megfordítja, és kiírja egy másik fájlba.
+
+**Megjegyzés:** A `rev` parancsot érdemes használni.
 
 ## 3. Példakódcsoport
 Tömbök használata és létrehozás.
