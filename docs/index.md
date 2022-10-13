@@ -12,3 +12,4 @@ Az órák számozása nem függ össze azzal, hogy hányadik heti gyakorlaton ke
 - [2. óra](/BashExamples/lesson2)
 - [3. óra](/BashExamples/lesson3)
 - [4. óra](/BashExamples/lesson4)
+- [5. óra](/BashExamples/lesson5)
