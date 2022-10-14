@@ -123,6 +123,26 @@ int main()
 
 **Parancsok:** gcc (C fordító)
 
+**Megoldás:**
+
+```bash
+if [ $# -eq 0 ]; then
+    echo "No input file specified." 1>&2
+    exit 1
+fi
+
+if [ ! -s $1 ]; then
+    echo "File does not exist or empty." 1>&2
+    exit 1
+fi
+
+if [ ! -d build ]; then
+    mkdir build
+fi
+
+gcc $1 -o build/run && ./build/run
+```
+
 ## 2. Példakódcsoport
 Ciklusokhoz tartozó példakódok.
 További példakódok és bővebb magyarázatok találhatók az alábbi [pdfben](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak7.pdf).
@@ -254,6 +274,22 @@ akkor minden benne lévő .txt fájl tartalmát soronként megfordítja, és ki�
 
 **Megjegyzés:** A `rev` parancsot érdemes használni.
 
+**Megoldás:**
+
+```bash
+if [ $# -lt 1 ]; then
+    echo "No input argument provided!" 1>&2
+    exit 1
+elif [ ! -d $1 ]; then
+    echo "Directory does not exist."
+    exit 1
+fi
+
+for filename in $(ls $1 | grep ".txt$"); do
+    cat "$1/$filename" | rev > "$1/$filename.out"
+done
+```
+
 ## 3. Példakódcsoport
 Tömbök használata és létrehozás.
 
@@ -307,7 +343,7 @@ echo
 ```
 
 ## 3. feladatcsoport
-Tömbös feladatok plusz pontért.
+Tömbös feladatok.
 
 ### 3.1. feladat
 Hozzunk létre egy N elemű tömböt, ahol N-t `read` paranccsal kérjük be, és ellenőrizzük, hogy 
@@ -318,3 +354,47 @@ műveleteket a tömbre:
 - Maximum elem kiíratása (hányadik elem és mi az értéke).
 - Írjuk ki az elemek összegét.
 - Írjuk ki az elemek átlagát.
+
+**Megoldás:**
+
+```bash
+read -p "Please type the size of the array!" N
+
+re='^[0-9]+$'
+if ! [[ $N =~ $re ]] ; then
+    echo "error: Not a positive number." 1>&2;
+    exit 1
+fi
+
+if [ $N -eq 0 ]; then
+    echo "error: Array size is 0." 1>&2
+    exit 1
+fi
+
+declare -a arr
+
+for ((i=0; i<N; ++i)); do
+    arr[$i]=$((RANDOM % 100 + 1)) # random number from 1 to 100
+    printf "${arr[$i]} "
+done
+echo
+
+sum=arr[0]
+mini=0
+maxi=0
+for ((i=1; i<N; ++i)); do
+    if [ ${arr[$i]} -gt ${arr[$maxi]} ]; then
+        maxi=$i
+    fi
+    if [ ${arr[$i]} -lt ${arr[$mini]} ]; then
+        mini=$i
+    fi
+    sum=$((sum + arr[i]))
+done
+
+echo "Minimum: $mini - ${arr[$mini]}."
+echo "Maximum: $maxi - ${arr[$maxi]}."
+echo "Sum: $sum."
+avg=$(echo "scale=4; $sum / $N" | bc)
+echo "Average: $avg."
+```
