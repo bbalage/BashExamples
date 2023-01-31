@@ -1,10 +1,59 @@
 # 1. óra
 
-Legelőször nyissunk egy terminált (Ctrl + Alt + B), amiben bash fut (feltehetően 
+## Shell
+
+Ezeken a gyakorlatokon shell scriptek írásával fogunk foglalkozni Unix alapú 
+operációs rendszerekben. Mit tekintünk Unix alapú rendszernek, és mik is azok a 
+shell scriptek?
+
+Az eredeti AT&T Unix operációs rendszert még a hatvanas években fejlesztették, és sok 
+későbbi operációs rendszernek szolgált alapjául. Ezeknek egy része tényleges Unix 
+operációs rendszer (Solaris), mások pedig Unixhoz hasonló rendszerek: Mac OS X és a
+számtalan Linux disztribúció. Mi a Linux disztribúciókon fogunk dolgozni.
+
+A tanszéki gépeken ennek a jegyzetnek az írásakor Linux Mint van telepítve
+(a Mint egy Linux disztribúció). Ezen felül a következő Linux disztribúciókat
+érdemes megemlíteni:
+- **Ubuntu.** A Linux Mintnél mostanra elterjedtebbé váltak a
+különböző Ubuntu verziók (Ubuntu 18.04, 20.04, 22.04; a verziók a kiadásuk éve 
+szerint vannak számozva). Könnyen installálható, felhasználóbarát. Otthoni gyakorláshoz
+ajánlott telepíteni (akár egy virtuális gépen).
+- **Arch Linux.** Arról híres, hogy annyira minimalista, hogy a felhasználónak
+gyakorlatilag mindent magának kell telepítenie,
+ami nem létfontosságú.
+- **Manjaro Linux.** Az Arch Linuxon alapul, csak igyekeztek "felhasználóbarátabbá"
+tenni.
+- **Kali Linux.** Digitális analizálásra és sebezhetőség tesztelésre specializálódott
+Linux.
+
+Az operációs rendszerek központi eleme a **kernel** (tehát mag). A *kernel* felelős
+az alapvető funkciók ellátásáért (például processzek kezelése, memória menedzselés,
+fájlrendszeri művelet; ezekről bővebben Operációs Rendszerek tárgyból). Számunkra a 
+*kernel* maga annyira nem jelentős, mi ugyanis **shell** programokkal fogunk foglalkozni
+(*shell* = héj; ezen keresztül tudunk utasításokat adni a *kernelnek*).
+
+A shellt mi úgy fogjuk látni, mint egy terminálban futó parancsértelmezőt. Az alább
+látható képen egy terminál látható, amiben egy shell fut.
+
+![terminal screenshot](img/terminal1.png)
+
+Tehát a shell egy parancsértelmező program, ami a felhasználói inputot a kernel számára
+is értelmezhető utasításokká alakítja. A fönt látható terminálban a **Bash** parancsértelmező
+fut. Egy terminálban futhat másféle shell is, nem csak Bash (más shellek például: sh, zsh).
+Mi a gyakorlatok keretében Bash scripteket fogunk írni.
+
+**Bash:** az elnevezés egy szójátékból adódik. A mostani shell szabvány az eredeti AT&T Unixhoz
+tartozó shell szabványból indul ki, amelyet Stephen Bourne dolgozott ki. Bash = **B**ourne
+**A**gain **Sh**ell.
+
+Ezeknek a rendszereknek az egyik nagy erőssége, hogy 
+rengeteg előre elkészített "paranccsal" rendelkeznek (kb. 700-1000). Ezeket a 
+parancsokat 
+
+Legelőször nyissunk egy terminált (Ctrl + Alt + T), amiben bash fut (feltehetően 
 ez a default). Mindent terminálban fogunk csinálni.
 
-A feladatokat és megoldásukat részletesen leírom itt, feltételezve, hogy az olvasó
-még nem foglalkozott érdemben parancssorral.
+
 
 ## 1. feladat
 Hozzunk létre egy mappát, amit a gyakorlatok feladataihoz fogunk használni.
