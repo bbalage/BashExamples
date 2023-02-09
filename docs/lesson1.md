@@ -71,7 +71,7 @@ ez a default). A további feladatokat terminálban fogjuk csinálni.
 ## Példák
 ---
 
-## 1. példa
+### 1. példa
 Hozzunk létre egy mappát, amit a gyakorlatok feladataihoz fogunk használni.
 A neve legyen `szgyak`. Ebben a mappában hozzunk létre egy másikat, aminek neve
 legyen `lesson1`. Lépjünk bele ebbe a mappába!
@@ -102,7 +102,7 @@ Ezzel kapcsolatban az is megfigyelhető, hogy a mappaneveket `/` (slash) jel vá
 el egymástól. Ez Unix alapú rendszereknél így van, míg Windowsban ez a jel `\`
 (backslash).
 
-## 2. példa
+### 2. példa
 
 Írjuk ki, hogy hol tartózkodunk épp a mapparendszerben, az abszolút ösvénnyel!
 
@@ -129,7 +129,7 @@ Szintén megemlítendő, hogy Unix rendszerben a tényleges gyökérmappát a `/
 **ha a jelenlegi jegyzékből (working directory) indulunk ki, akkor a "relative path-t"
 (relatív ösvény).**
 
-## 3. példa
+### 3. példa
 
 Lépjünk be a gyökér mappába, és írassuk ki a tartalmát!
 
@@ -164,52 +164,59 @@ tartalmazza (háttértár, cpu magok, terminálok, stb.)
 - `root`: a rendszer felhasználó home mappája.
 - `home`: a többi felhasználó (és a saját felhasználónk) home mappáit tartalmazó mappa.
 
+### 4. példa
 
-A felhasználói fiókok a `home` mappában lesznek. Nézzünk
-szét itt is:
+Lépjünk be a `szgyak/lesson1` mappába, és hozzunk létre egy whatever.txt nevű fájlt!
+
 
 ```bash
-cd home
-ls
+cd ~/szgyak/lesson1
+touch whatever.txt
 ```
 
-Most valószínűleg megtudtuk, kik lakoznak a rendszeren rajtunk kívül (az iskolai rendszereken
-valószínűleg nem közvetlenül a `home` mappában találjuk a felhasználói fiókokat, hanem további
-almappákra vannak osztva a tanulók, oktatók, stb.).
+A `cd ~/szgyak` parancsot mindegy, hogy hol adjuk ki, ugyanis a ~ jel a jelenleg belépett
+felhasználó home mappájának rövid jelölése, ezért a `~/szgyak` egy full path, nem pedig 
+relative.
 
-Most már felderítő útra indulhatnánk, de előbb tanuljunk meg még egy-két dolgot a parancsokról
-és az Unix mappaszerkezetről!
+A `touch` parancs frissíti egy argumentumként megadott fájlt utolsó elérési és utolsó 
+változtatási dátumát (last accessed, last modified). Ha nem létezik a fájlt, amit 
+megadtunk, akkor létrehozza azt. Így a `touch` parancsot könnyen lehet fájlok létrehozására
+használni.
 
-### A `man` parancs
+### 5. példa
 
-A `man` parancs megmutatja nekünk egy parancs *manual page* bejegyzését. Próbáljuk ki
-valamelyik eddig használt parancsra!
+Írassuk ki a `szgyak/lesson1` mappa teljes tartalmát a benne lévő fájlok tulajdonosaival együtt!
 
 ```bash
-man cd
+cd ~/szgyak # csak akkor, ha közben elvándoroltunk
+ls -la
+ls -la ~/szgyak # ha így adjuk ki a parancsot, akkor mindegy mi épp a working directory
 ```
 
-A megjelenő szöveg a felhasználói útmutató az adott parancshoz. Itt esélyesen rengeteg dolog
-fel van sorolva: parancsleírás, kapcsolók, paraméterek, stb. A nyilakkal tudunk lejjebb vagy
-feljebb görgetni, míg a `q` billentyű lenyomásával tudunk kilépni a *manual page* bejegyzésből.
+Azt látjuk, hogy az `ls` parancsot némileg máshogy adtuk ki, mint eddig.
+Egy parancs működését lehet módosítani kapcsolók segítségével. Egy kapcsoló a parancs után jön,
+de ezen túl az elhelyezkedése változhat parancsonként és kapcsolónként. Szinte minden 
+parancsnak vannak kapcsolói, némelyiknek egészen rengeteg, és egészen bonyolultak.
+Ahhoz, hogy megnézzük, mik egy parancs kapcsolói, és mire valók, hogyan működnek,
+vagy az internetet, vagy a **manual page-et** hívjuk segítségül.
 
-### Kapcsolók
-
-Egy parancs működését lehet módosítani kapcsolók segítségével. Egy kapcsoló a parancs után jön
-(az argumentumok közötti elhelyezkedése változhat parancsonként és kapcsolónként).
-
-Próbáljuk ki az `ls` parancs kapcsolóit! Először lépjünk vissza a felhasználói gyökér
-jegyzékünkbe:
+A következő paranccsal megnézzük az `ls` parancs *manual entry-ét*:
 
 ```bash
-cd ~ # ~ a felhasználói gyökérmappád rövidítése, például /home/students2022/gazsi1
+man ls
+```
+
+A manual page-en lehet lefelé görgetni a nyilakkal, és ki lehet lépni a q karakter lenyomásával.
+Szinte minden parancshoz lesz manual entry, és ezeket használjuk is!
+
+Próbáljuk ki az `ls` parancs kapcsolóit!
+
+```bash
 ls -l # kötőjellel adjuk meg a kapcsolókat
 ls -a # ez egy másik kapcsoló
-ls -la # ez a két előző kapcsoló kombinálva
+ls -la # ez a két előző kapcsoló kombinálva (mintha mindkettőt kiadtuk volna)
 ```
-
-Azt, hogy az `ls` parancs működése hogyan változik meg a kapcsolók miatt, megtudhatjuk a 
-manuálból (`man ls`). Röviden:
+A manualból megtudhatjuk ezekről a következőket:
 
 - Az `l` kapcsoló bővebb adatokat jelenít meg a fájlokról és mappákról, nem csak a nevüket.
 - Az `a` kapcsoló olyan mappákat is megjelenít, amik `.` jellel kezdődnek, vagy épp csak abból állnak.
@@ -218,23 +225,121 @@ manuálból (`man ls`). Röviden:
 A ponttal kezdődő nevek valamilyen kisegítő dologhoz szoktak tartozni, amit nem szeretnénk,
 hogy az a felhasználó is lásson, aki csak kattintgat egy *file explorer* felületen. Ezek 
 lehetnek parancssori fájlok, konfigurációk, de gyakorlatilag bármi más is, aminek úgy 
-döntöttünk, hogy ponttal kezdődő nevet adtunk.
+döntöttünk, hogy ponttal kezdődő nevet adunk.
 
-Lépjünk be `lesson1` jegyzékbe, és figyeljük meg, hogy a jegyzék nem üres!
+### 6. példa
+
+Hozzunk létre egy `tmp` mappát a `szgyak/lesson1` jegyzéken belül, és írassuk ki a tartalmát!
+Mi a mappa tartalma?
 
 ```bash
-cd SzArGyak/lesson1
-ls -la
+mkdir ~/szgyak/lesson1/tmp
+# ha a working directory a ~/szgyak/lesson1 akkor elég ennyi is:
+# mkdir tmp
+ls -a ~/szgyak/lesson1/tmp # full path
+ls -a tmp # relative path; függ a working directory-tól (hogy "hol vagyunk")
 ```
 
-Még az üres jegyzéknek is van két bejegyzése: `.` és `..`
+Azt látjuk. hogy még az üres jegyzéknek is van két bejegyzése: `.` és `..`
 Az egy pontból álló bejegyzés magára a jegyzékre mutat, míg a két pontból álló bejegyzés 
 a szülő jegyzékre (amiben az aktuális jegyzék van). Tehát a következő paranccsal visszalépünk
-a `SzArGyak` jegyzékbe:
+a `szgyak` jegyzékbe:
 
 ```bash
 cd ..
 ```
+
+Az ilyen visszalépő directory neveket lehet láncolni is. Az alábbival kettőt lépünk "vissza":
+
+```bash
+cd ../..
+```
+
+És így tovább. Az alábbival nem csináltunk semmit, ugyanis `.` arra a mappára utal, amiben
+található.
+
+```bash
+cd .
+```
+
+### 7. példa
+Töröljük a `tmp` directory-t!
+
+```bash
+cd ~/szgyak/lesson1
+rmdir tmp
+# ha kihagyjuk a cd-t, akkor természetesen megtehetjük ezt is:
+# rmdir ~/szgyak/lesson1/tmp
+# ugyanaz történik, csak egyik esetben full path, másik esetben relative path a hivatkozás típusa
+```
+
+`rmdir` = remove director; kellően beszédes név, hogy ne kelljen magyarázni.
+
+### 8. példa
+Töröljük a `whatever.txt` fájlt!
+
+```bash
+rm ~/szgyak/lesson1/whatever.txt
+```
+
+`rm` = remove; szintén beszédes. Annyit viszont érdemes megemlíteni, hogy ez a parancs nem 
+a kukába rakja a fájlokat, hanem törli őket. Nem fogjuk tudni a kukából visszaszerezni azt,
+amitől így szabadultunk meg.
+
+### 9. példa
+Hozzuk létre a következő mappaszerkezetet a `~/szgyak/lesson1` mappán belül (minden fájlt
+hagyjunk üresen):
+
+```
+|
+|-src (mappa)
+ |- main.c (fájl)
+ |- util.h (fájl)
+ |- util.c (fájl)
+|-assets (mappa)
+ |-textures (mappa)
+  |-xy.png (fájl)
+  |-wz.png (fájl)
+ |-maps (mappa)
+|-build (mappa)
+ |-release (mappa)
+ |-debug (mappa)
+```
+
+## Összefoglalás
+---
+A következő parancsokat tanultuk:
+- `cd` megváltoztatja a working directory-t (konyhanyelven belép egy másik mappába).
+- `pwd` kiírja a jelenlegi working directory-t (konyhanyelven azt a directory-t, amiben vagyunk).
+- `ls` kiírja egy directory tartalmát.
+- `mkdir` létrehoz egy új directory-t.
+- `touch` frissíti egy fájl legutóbbi elérési dátumát és legutóbbi módosítási dátumát, és
+ha még a fájl nem létezik, akkor létrehozza azt.
+- `rmdir` directory törlése.
+- `rm` fájl vagy fájlok törlése.
+
+## Feladatok
+---
+
+### 1. feladat
+
+
+A felhasználói fiókok a `home` mappában lesznek. Nézzünk szét itt is:
+
+```bash
+cd home
+ls
+```
+
+
+Most valószínűleg megtudtuk, kik vannak a rendszeren rajtunk kívül (az iskolai rendszereken
+valószínűleg nem közvetlenül a `home` mappában találjuk a felhasználói fiókokat, hanem további
+almappákra vannak osztva a tanulók, oktatók, stb.).
+
+Most már felderítő útra indulhatnánk, de előbb tanuljunk meg még egy-két dolgot a parancsokról
+és az Unix mappaszerkezetről!
+
+
 
 Még egy megjegyzés: az `ls` parancs segítségével úgy is meg tudjuk nézni egy mappa tartalmát,
 hogy nem lépünk bele. Ehhez csak át kell adnunk a mappa elérési útvonalát. Például:
