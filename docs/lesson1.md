@@ -300,11 +300,130 @@ hagyjunk üresen):
  |-textures (mappa)
   |-xy.png (fájl)
   |-wz.png (fájl)
+  |-readme.txt (fájl)
  |-maps (mappa)
 |-build (mappa)
  |-release (mappa)
  |-debug (mappa)
 ```
+
+A jegyzékeket könnyen létrehozhatjuk az alábbi módon:
+
+```bash
+cd ~/szgyak/lesson1
+mkdir src
+mkdir assets
+mkdir assets/textures
+mkdir assets/maps
+mkdir build
+mkdir build/release
+mkdir build/debug
+```
+
+Viszont ezzel nem tanultunk semmi újat, és kettővel több parancsot adtunk ki, mint szükséges!
+
+Ha elolvassuk a `mkdir` parancs manual entry-ét (`man mkdir`), akkor megtudjuk, hogy
+van neki egy `-p` kapcsolója, ami a szülő mappa létrehozására is utasít. Például az 
+alábbi parancs alapból hibával elbukik:
+
+```bash
+mkdir build/release
+```
+
+Ez azért van, mert nincs `build` mappa, amiben létre lehet hozni a `release` mappát.
+A `-p` kapcsoló annyiban módosítja a működést, hogy az ehhez hasonló esetekben a 
+szülő mappát is létrehozza a parancs (`-p` mint *parent*). Így kiadva a parancsokat:
+
+```bash
+cd ~/szgyak/lesson1
+mkdir src
+mkdir -p assets/textures
+mkdir assets/maps
+mkdir -p build/release
+mkdir build/debug
+```
+
+A fájlokat egyszerűen hozzuk létre a `touch` paranccsal!
+
+```bash
+touch src/main.c
+touch src/util.c
+touch src/util.h
+touch assets/textures/xy.png
+touch assets/textures/wz.png
+touch assets/textures/readme.txt
+```
+
+### 10. példa
+Írassuk ki a mappák tartalmát, karaktergrafikusan rendezett formában!
+
+```bash
+tree # igen, ennyi a parancs. Adjuk ki a lesson1 mappában!
+```
+
+A `tree` parancs nem minden rendszerre van telepítve, viszont pont azt csinálja, amire
+szükségünk van. Ellenőrizzük, hogy a kapott mappaszerkezet olyan-e, mint az alább
+látható screenshoton. Ha nem olyan, akkor valamit elrontottunk.
+
+![terminal screenshot](img/terminal3.png)
+
+### 11. példa
+Töröljük az összes png fájlt a `textures` mappában!
+
+```bash
+rm assets/textures/*.png
+```
+
+A csillag minden szövegre illeszkedni fog (a reguláris kifejezésekről később majd bővebben).
+Ellenőrizzük a `tree` paranccsal, hogy a png fájlok (és csak azok) eltűntek-e. Erre az 
+ellenőrzésre használhatjuk az `ls assets/textures` parancsot is (amelyik szimpatikus).
+
+### 12. példa
+Hozzunk létre egy `utils` mappát az `src` mappán belül, és helyezzük át bele az `util.c` és 
+az `util.h` fájlokat!
+
+```bash
+mkdir src/utils
+mv src/util.h src/utils/util.h
+mv src/util.c src/utils/util.c
+```
+
+`mv` = move. A működése meglehetősen egyszerű. Első argumentuma annak a fájlnak vagy mappának
+az elérési útja (path), amit át akarunk helyezni, második argumentuma pedig az új helyen 
+érvényes elérési út.
+
+Tehát az a fájl, amit eddig `src/util.h` ösvényen értünk el, azt a parancs kiadása után
+`src/utils/util.h` elérési úton fogjuk elérni.
+
+### 13. példa
+Nevezzük a `textures` mappában található `readme.txt` fájlt `readme_sprites.txt` fájlra.
+
+```bash
+mv assets/textures/readme.txt assets/textures/readme_sprites.txt
+```
+
+Átnevezésre az `mv` parancsot szoktuk használni a föntiek szerint.
+
+### 14. példa
+Másoljuk át a `readme_sprites.txt` fájlt a `maps` mappába `readme_maps.txt` néven!
+
+```bash
+cp assets/textures/readme_sprites.txt assets/maps/readme_maps.txt
+```
+
+`cp` = copy. A működése ugyanolyan, mint az `mv` parancsé, csak itt másolunk, nem áthelyezünk.
+
+### 15. példa
+Töröljük a `maps` és a `build` mappát!
+
+```bash
+rm -r assets/maps
+rm -r build
+```
+
+Az `-r` kapcsoló jelentése *recursive*, hatása pedig az, hogy amennyiben az `rm` parancsnak
+egy mappát adunk meg, akkor rekurzívan törli a mappa teljes tartalmát (és minden a mappában
+lévő mappa tartalmát), mielőtt törli magát a mappát.
 
 ## Összefoglalás
 ---
@@ -316,54 +435,32 @@ A következő parancsokat tanultuk:
 - `touch` frissíti egy fájl legutóbbi elérési dátumát és legutóbbi módosítási dátumát, és
 ha még a fájl nem létezik, akkor létrehozza azt.
 - `rmdir` directory törlése.
-- `rm` fájl vagy fájlok törlése.
+- `rm` fájlok, mappák törlése.
+- `tree` karaktergrafikus kirajzolja a mappaszerkezetet.
+- `cp` fájlok, mappák másolása.
+- `mv` fájlok, mappák mozgatása.
+- `man` manual entry megnyitása egy parancshoz.
 
 ## Feladatok
 ---
+Önálló gyakorló feladatok.
 
 ### 1. feladat
 
+Induljunk felderítő útra a fájlrendszerben! Nézzünk bele más felhasználók home mappáiba!
+Keressük meg a legvalószínűbb helyet, ahova az értékes beadandóikat pakolják majd!
+Ha a fájljaik mindenki számára olvashatóak, akkor meg is nézhetjük őket. Ha írhatók, akkor 
+törölhetjük is őket (következő órán megnézzük a jogosultságokat).
 
-A felhasználói fiókok a `home` mappában lesznek. Nézzünk szét itt is:
+### 2. feladat
 
-```bash
-cd home
-ls
-```
+Módosítsuk az `util.h` utolsó változtatási dátumát, de csak a változtatási dátumát!
+Figyeljünk arra, hogy a parancs alapból mind az utolsó elérési, mind az utolsó módosítási
+dátumot módosítja! A feladat megoldásához olvassuk ki a megfelelő kapcsolót a `touch`
+parancs manual entry-éből (önálló utánanézés).
 
-
-Most valószínűleg megtudtuk, kik vannak a rendszeren rajtunk kívül (az iskolai rendszereken
-valószínűleg nem közvetlenül a `home` mappában találjuk a felhasználói fiókokat, hanem további
-almappákra vannak osztva a tanulók, oktatók, stb.).
-
-Most már felderítő útra indulhatnánk, de előbb tanuljunk meg még egy-két dolgot a parancsokról
-és az Unix mappaszerkezetről!
-
-
-
-Még egy megjegyzés: az `ls` parancs segítségével úgy is meg tudjuk nézni egy mappa tartalmát,
-hogy nem lépünk bele. Ehhez csak át kell adnunk a mappa elérési útvonalát. Például:
-
-```bash
-ls -la /home # például így
-ls -l .. # vagy így
-ls ../.. # vagy akár így is
-```
-
-Az elérési útvonalak lehetnek relatívak vagy abszolútak. A relatív útvonal az aktuális 
-*working directory*-tól indít, míg az abszolút a gyökértől, tehát `/`-től.
-
-Kérdés: melyik abszolút és melyik relatív?
-
-```bash
-cd /home/bbalage/Documents
-mkdir SzArGyak
-ls ..
-cd ~/Pictures
-```
-
-## 2. feladat (önálló)
-Töröljük a létrehozott `SzArGyak` és `lesson1` mappákat az `rmdir` (= remove directory)
-paranccsal, utána hozzuk létre ismét, de ezúttal egyetlen parancskiadással. Hint:
-a `mkdir` manuáljában van a megoldás módja (egy kapcsoló kell), de az internet is nagyon
-sokat segíthet a megoldásban.
+### 3. feladat
+Hozzunk létre egy `include` mappát a `lesson1` mappán belül. Másoljuk bele az `util.h`
+fájlt, de adjuk ki úgy a parancsot, hogy csak akkor történjen másolás, ha a célmappában lévő
+azonos nevű fájl nem létezik, vagy elavult! (csak akkor másolj, ha szükséges) Keressük ki a 
+megfelelő kapcsolót a `cp` parancs manual entry-éből!
