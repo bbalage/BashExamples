@@ -1,6 +1,6 @@
 # 1. óra
 
-## Elméleti információk
+## Háttérismeretek
 ---
 
 Számítógépes Architektúrák gyakorlatokon shell scriptek írásával fogunk foglalkozni Unix

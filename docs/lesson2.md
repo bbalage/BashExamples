@@ -1,14 +1,39 @@
 # 2. óra
 
-## Előzetes ismeretek
-Mire használják a Bash-t:
-- Rendszergazdai feladatok ellátása.
-- A munkánk során gyakran ismétlődő feladatsorozatok kötegelése. (Vagyis, ha én
-minden alkalommal, mikor eljutottam egy pontra a fejlesztésben 1. lefordítom a kódot, 2.
-teszt futtatást végzek, 3. a teszt futtatás eredményét felküldöm egy weboldalra, majd 4.
-egy log fájlban rögzítem a futási időmet, akkor ezt a négy parancsot akár be is írhatom 
-egyetlen Bash fájlba, és innentől mindig csak ezt a fájlt kell "lefuttatnom", hogy ez a 
-4 lépés végrehajtódjon.)
+## Jogosultságok
+---
+
+Az előző órán megtanultuk, hogy hogyan lehet terminálban navigálni a fájlrendszerbe.
+Nem néztük azonban meg, hogy milyen jogosultságok vannak, hogyan lehet ezeket megnézni,
+hogyan tárolja őket a Linux, és hogyan tudjuk őket módosítani.
+
+A jogosultságok megtekintése meglehetősen egyszerű, és ennek a módját már tanultuk. Adjuk ki
+a következő parancsot egy tetszőleges, nem üres mappában (természetesen terminálból).
+
+```bash
+ls -l
+```
+
+Eddig nem néztük meg jobban, hogy mit is ír ki pontosan az `ls` parancs az `-l` kapcsolóval
+kombinálva. Az alábbi képen látható egy lehetséges output:
+
+
+
+Ilyenkor a következő oszlopok jelennek meg.
+1. Jogosultságok. Rövidesen tisztázzuk az értelmezését.
+2. Tulajdonos. Általában egyezik azzal a felhasználóval, aki létrehozta a fájlt.
+3. Tulajdonosi csoport. Rövidesen erre is kitérünk bővebben.
+4. Méret. Bájtokban megadva látjuk.
+5. Utolsó módosítás ideje.
+6. Név.
+
+
+
+### nano (terminálos szövegszerkesztő)
+A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
+Unix rendszerre (ismertek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami
+teljesen a terminálban működik, és nem kell külön ablakot nyitnia, hogy használható legyen.
+Az egér is szinte teljesen haszontalan.
 
 
 ### Parancsok kombinálása
@@ -37,12 +62,6 @@ fájl végéhez hozzáír további adatok, míg az előző parancs teljesen fel�
 Vegyük észre, hogy alapból is egy streamre írunk, a *standard output* streamre (*stdout*, 1-es
 azonosító). Ismert a *standard input* stream is (*stdin*, 0-s azonosító), továbbá a *standard
 error* stream (*stderr*, 2-es azonosító).
-
-### nano (terminálos szövegszerkesztő)
-A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
-Unix rendszerre (ismertebbek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami
-teljesen a terminálban működik, és nem kell külön ablakot nyitnia, hogy használható legyen.
-Az egér is szinte teljesen haszontalan.
 
 ### Script fájlok
 Egy parancsot nem csak a terminálba lehet beírni. Helyette el lehet tárolni 
