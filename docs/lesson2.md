@@ -1,14 +1,138 @@
 # 2. óra
 
-## Előzetes ismeretek
-Mire használják a Bash-t:
-- Rendszergazdai feladatok ellátása.
-- A munkánk során gyakran ismétlődő feladatsorozatok kötegelése. (Vagyis, ha én
-minden alkalommal, mikor eljutottam egy pontra a fejlesztésben 1. lefordítom a kódot, 2.
-teszt futtatást végzek, 3. a teszt futtatás eredményét felküldöm egy weboldalra, majd 4.
-egy log fájlban rögzítem a futási időmet, akkor ezt a négy parancsot akár be is írhatom 
-egyetlen Bash fájlba, és innentől mindig csak ezt a fájlt kell "lefuttatnom", hogy ez a 
-4 lépés végrehajtódjon.)
+**Előkészület:** Hozzunk létre egy külön mappát ennek a gyakorlatnak a feladataihoz,
+és lépjünk bele (a mappába)! Hozzunk létre benne tetszőleges text fájlokat.
+
+```bash
+cd szgyak
+mkdir lesson2
+cd lesson2
+touch 1.txt
+touch 2.txt
+```
+
+Ezek után elkezdhetjük az új anyagot!
+
+## Jogosultságok
+---
+
+Az előző órán megtanultuk, hogy hogyan lehet terminálban navigálni a fájlrendszerbe.
+Nem néztük azonban meg, hogy milyen jogosultságok vannak, hogyan lehet ezeket megtekinteni,
+hogyan tárolja őket a Linux, és hogyan tudjuk őket módosítani.
+
+A jogosultságok megtekintése meglehetősen egyszerű, és ennek a módját már tanultuk. Adjuk ki
+a következő parancsot a `lesson2` mappában.
+
+```bash
+ls -l
+```
+
+Eddig nem néztük meg jobban, hogy mit is ír ki pontosan az `ls` parancs az `-l` kapcsolóval
+kombinálva. Az alábbi képen látható egy lehetséges output:
+
+![terminal screenshot](img/terminal2_1.png)
+
+Ilyenkor a következő oszlopok jelennek meg.
+1. Jogosultságok. Rövidesen tisztázzuk az értelmezését.
+2. Tulajdonos. Általában egyezik azzal a felhasználóval, aki létrehozta a fájlt.
+3. Csoport. Rövidesen erre is kitérünk bővebben.
+4. Méret. Bájtokban megadva látjuk.
+5. Utolsó módosítás ideje.
+6. Név.
+
+Térjünk rá ezekből a jogosultságok oszlopra!
+
+### Jogosultságok egyszerű fájlokra
+Unix alapú rendszeren háromféle jogosultságot különböztetünk meg:
+- olvasási (**r**ead),
+- írási (**w**rite),
+- futtatási (e**x**ecute).
+
+A jogosultságokat minden elemnél háromféle felhasználóra értelmezzük. Ezek a felhasználók:
+- a tulajdonos,
+- a tulajdonosi csoportban lévő felhasználók,
+- mindenki más.
+
+Ennek megfelelően egy fájlra 3x3 jog létezik, tehát 9. Tekintsük az alábbi képernyőképet:
+
+![terminal screenshot](img/terminal2_2.png)
+
+A `runnable` nevű fájlt mindenkinek joga van írni, olvasni és futtatni. Ezt jelöli, hogy 
+látható az `rwxrwxrwx` a fájl előtt. Ezzel szemben a két text fájlt csak a tulajdonosnak és 
+a tulajdonosi csoporttagoknak tartozóknak van joguk írni, ellenben mindenkinek joga van olvasni.
+Futtatni senkinek sincs joga a text fájlokat (nem is lenne értelme futtatni egy text fájlt).
+
+Látható, hogy azok a jogok, amik nincsenek megadva '-' karakterrel (kötőjel) vannak jelölve.
+Ami meg van adva, annak a megfelelő karaktere kiírásra kerül. Az első hármas `rwx` csoport a
+tulajdonos jogait jelöli, a második a tulajdonos csoportjában lévőket, a harmadik mindenki mást.
+
+Megjegyzendő, hogy a fájl törléséhez is írási jog kell.
+
+### Jogosultságok számokként
+Ahhoz, hogy meg tudjuk változtatni ezeket a jogosultságokat, először nézzük meg, hogy rendszer
+hogyan reprezentálja őket!
+
+A jogosultságokat az Unix rendszerekben hagyományosan számokkal jelölik. A számok képzése a 
+következő:
+- `r` = 4
+- `w` = 2
+- `x` = 1
+
+A számok láthatóan kettő hatványai (második, első és nulladik hatványa). Ha ezeknek az összegét 
+képezzük, akkor megkapjuk, hogy milyen jogok élnek a fájlra. Például, ha az `1.txt` fálj jogaiból 
+indulunk ki, akkor a tulajdonos jogait a 6-os szám jelöli, mert `r + w` joga van, ami számokkal
+`4 + 2 = 6`. Ezeket a számokat is ismételjük, tehát az adott fájl jogai 664, ugyanis a tulajdonos
+és a csoporttagoknak jogát a hatos szám jelöli, míg a többiekét a 4-es, mert ők csak
+olvashatják a fájlt.
+
+Néhány példa kombináció:
+- 755 = `rwxr-xr-x`: A tulajdonos mindent megtehet a fájllal, de a többiek nem írhatják.
+- 640 = `rw-r-----`: A tulajdonos írhat és olvashat, a csoportba tartozók csak olvashatnak,
+mindenki más nem tehet semmit a fájllal.
+- 711 = `rwx--x--x`: A tulajdonos mindent megtehet, de mindenki egyéb csak futtathatja a fájlt.
+
+A tulajdonosnak nem kell több jogosultsággal rendelkeznie, mint mindenki másnak, de így logikus.
+
+Most, hogy tudjuk a jelöléseket, nézzük a változtatásokat!
+
+### Jogosultságok megváltoztatása
+A jogosultságok megváltoztatására a `chmod` parancsot használhatjuk. A parancs első paramétere 
+az új jogosultságok számokkal, a második a fájl, amire meg akarjuk változtatni a jogosultságokat.
+Például:
+
+```bash
+chmod 640 1.txt
+# ezután nézzük meg:
+ls -l
+```
+
+A fönti parancs után az 1.txt jogosultságai a következők lesznek: `rw-r-----`. Természetesen a 
+parancsnak megadható bármilyen háromjegyű szám, amelyben nem szerepel 8-as vagy 9-es számjegy, de 
+persze némelyik logikailag nincs sok értelme. Például miért adnánk meg 507-et? Ezzel a fájllal 
+bárki bármit tehet, de a tulajdonosa nem írhatja, és a csoport is teljesen le van tiltva
+róla. Ha átrendezzük, akkor már több értelme van: 750. Ettől függetlenül az 507 is megadható,
+nem tiltja semmi.
+
+A chmod parancsnak adhatunk a következőképpen is paramétert:
+
+```bash
+touch script.sh
+# Edit the script
+chmod +x script.sh
+```
+
+A fönti parancsoknál létrehoztunk egy `script.sh` nevű fájlt. Alapértelmezetten a `script.sh`
+fájlon sincs futtatási jog, viszont mi később tudni fogjuk, hogy az `.sh` kiterjesztésű fájlokban
+shell scripteket szoktunk tárolni, amelyeket esélyesen futtatni szeretnénk. Ehhez előbb írnunk is 
+kell a fájlba egy programot (amelyet a fönti példában nem tettünk meg, csak kommentben), viszont 
+jogunk attól még nincs a futtatásra. A `chmod +x script.sh` parancs mindenkinek megadja a futtatási
+jogot a fájlhoz. Ha ennél finomabban akarjuk megadni, akkor vissza kell térnünk a számos jelöléshez.
+
+### nano (terminálos szövegszerkesztő)
+A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
+Unix rendszerre (ismertek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami
+teljesen a terminálban működik, és nem kell külön ablakot nyitnia, hogy használható legyen.
+Az egér is szinte teljesen haszontalan.
 
 
 ### Parancsok kombinálása
@@ -37,12 +161,6 @@ fájl végéhez hozzáír további adatok, míg az előző parancs teljesen fel�
 Vegyük észre, hogy alapból is egy streamre írunk, a *standard output* streamre (*stdout*, 1-es
 azonosító). Ismert a *standard input* stream is (*stdin*, 0-s azonosító), továbbá a *standard
 error* stream (*stderr*, 2-es azonosító).
-
-### nano (terminálos szövegszerkesztő)
-A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
-Unix rendszerre (ismertebbek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami
-teljesen a terminálban működik, és nem kell külön ablakot nyitnia, hogy használható legyen.
-Az egér is szinte teljesen haszontalan.
 
 ### Script fájlok
 Egy parancsot nem csak a terminálba lehet beírni. Helyette el lehet tárolni 

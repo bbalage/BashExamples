@@ -1,5 +1,13 @@
 # 3. óra
 
+## Elméleti információk
+Mire használják a Bash-t:
+- Fájlrendszer műveletekre.
+- Parancssori programok indítására.
+- Parancssori programok kombinálására.
+
+A munkánk során gyakran ismétlődő feladatok automatizálására.
+
 Az órához szükséges szintaktikai információk a következő linkeken találhatók:
 - [Változók használata](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak5.pdf)
 - [Feltételes szerkezetek használata](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak6.pdf)
