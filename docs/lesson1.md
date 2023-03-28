@@ -436,7 +436,7 @@ A következő parancsokat tanultuk:
 ha még a fájl nem létezik, akkor létrehozza azt.
 - `rmdir` directory törlése.
 - `rm` fájlok, mappák törlése.
-- `tree` karaktergrafikus kirajzolja a mappaszerkezetet.
+- `tree` karaktergrafikusan kirajzolja a mappaszerkezetet.
 - `cp` fájlok, mappák másolása.
 - `mv` fájlok, mappák mozgatása.
 - `man` manual entry megnyitása egy parancshoz.

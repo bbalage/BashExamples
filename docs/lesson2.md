@@ -128,6 +128,61 @@ kell a fájlba egy programot (amelyet a fönti példában nem tettünk meg, csak
 jogunk attól még nincs a futtatásra. A `chmod +x script.sh` parancs mindenkinek megadja a futtatási
 jogot a fájlhoz. Ha ennél finomabban akarjuk megadni, akkor vissza kell térnünk a számos jelöléshez.
 
+### Mappa jogosultságok
+Mappák esetében is értelmezettek a read-write-execute jogok, de mást jelentenek, mint fájlok esetén.
+- **read:** Aki rendelkezik olvasási joggal, az listázhatja a mappa bejegyzéseit (a benne lévő fájlokat
+és mappákat).
+- **write:** Aki rendelkezik ezzel a joggal, az módosíthatja a mappa tartalmát.
+- **execute:** Aki rendelkezik ezzel a joggal, az beléphet a mappába. Megjegyzendő, hogy ha nem léphetünk
+be a mappába, akkor nem tudunk módosítani benne és nem tudjuk megfelelően listázni a bejegyzéseit sem.
+Tehát a read és write jog az execute jog nélkül nem sok hasznot jelent nekünk.
+
+## Csoportok
+Minden fájlnak van egy tulajdonosi csoportja, amelyre a fönt olvasottaknak megfelelően kitüntetett
+jogosultságok vonatkozhatnak. Az `ls -l` parancs kilistázza a fájlokat a tulajdonossal és a
+csoporttal együtt.
+
+A következő módon megnézhetjük, hogy az adott user melyik csoportokba tartozik:
+
+```bash
+groups username
+# a username nevű felhasználó csoportjai kiírásra kerülnek
+```
+
+Minden fájlnak egy tulajdonosi csoportja van, de egy felhasználó több felhasználói csoportban lehet. 
+Az Unixban vannak parancsok különböző csoportkezelési műveletekre. Mivel ez a tárgy nem az *Unix Rendszergazda*
+tárgy, ezért ezekbe a parancsokba nem fogunk itt mélyebben belemenni. Az alábbi parancsokat felsoroljuk, de
+legfeljebb minimális szükségünk lesz rájuk:
+- `useradd` új felhasználót ad a rendszerhez.
+- `groupadd` új csoportot ad a rendszerhez.
+- `usermod -a -G groupname username` egy meglévő usert (username) egy meglévő csoporthoz (groupname) hozzáad.
+
+A föntiek inkább rendszergazdai feladatok, de ritkán személyes gépen is hasznosak lehetnek kényelmi okokból.
+
+Lényegesen gyakrabban kell használni a `chown` parancsot, amely egy fájl tulajdonjogának megváltoztatására
+szolgál. Egyszerre lehet használni a tulajdonos felhasználó és a tulajdonos csoport megváltoztatására.
+Ha csak a tulajdonost akarjuk megváltoztatni, akkor a következőképpen tehetjük:
+
+```bash
+chown newusername filename
+```
+
+Amennyiben a tulajdonosi csoportot is meg akarjuk változtatni, akkor az alábbi módon adjuk ki a parancsot:
+
+```bash
+chown username:groupname filename
+```
+
+## Példa
+Az alábbi példán keresztül gyakoroljuk a jogosultságok beállítását!
+
+Hozzunk létre a `lesson2` mappán belül egy `example` mappát! Ezen a mappán belül hozzuk 
+létre a megfelelő fájlokat a megfelelő jogosultságokkal és a megfelelő tulajdonosokkal,
+hogy az `ls -l` parancs a következő kimenetet generálja:
+
+
+
+
 ### nano (terminálos szövegszerkesztő)
 A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
 Unix rendszerre (ismertek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami

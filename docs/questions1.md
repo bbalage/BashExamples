@@ -62,3 +62,27 @@ b. Az `mv` paranccsal átmozgatunk egy fájlt egyik mappából a másikba,
 c. Az `mv` paranccsal adatokat mozgatunk a fájlrendszer egyik pontjából
 a másikba.\
 d. Az `mv` paranccsal megváltoztatjuk egy fájl elérési útját.
+
+### 14. kérdés
+Melyik írja le legpontosabban a `touch` parancs működését?
+
+a. A `touch` parancs frissíti egy fájl utolsó módosítási időpontját és utolsó elérési időpontját.\
+b. A `touch` parancs frissíti egy fájl létrehozási időpontját, utolsó módosítási időpontját, elérési időpontját, és létrehozza a fájlt, ha az nem létezik.\
+c. A `touch` parancs frissíti egy fájl utolsó módosítási időpontját és/vagy utolsó elérési időpontját, és létrehozza a fájlt, ha az nem létezik.\
+d. A `touch` parancs létrehoz egy fájlt, és beállítja az utolsó elérési időpontját.
+
+### 15. kérdés
+Igaz vagy hamis az alábbi állítás?
+
+*Az Unix egy Linux disztribúció.*
+
+### 16. kérdés
+Melyik paranccsal törölhetünk üres mappát?
+
+### 17. kérdés
+Az alábbiak közül melyik írja le legpontosabban a `pwd` parancs működését?
+
+a. Kiírja a jelenlegi munkakönyvtár abszolút elérési útját.
+b. Kiírja a jelenlegi munkakönyvtár relatív elérési útját.
+c. Megváltoztatja a jelenleg bejelentkezett felhasználó jelszavát.
+d. Megváltoztatja a paraméterként megadott felhasználó jelszavát.
