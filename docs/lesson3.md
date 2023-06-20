@@ -66,6 +66,94 @@ azonosító). Ismert a *standard input* stream is (*stdin*, 0-s azonosító), to
 error* stream (*stderr*, 2-es azonosító). Ezekkel majd azután foglalkozunk, hogy megtanultunk
 pár hasznos parancsot.
 
+Az eddigiek szemléltetéséhez tanuljuk meg az `echo` parancsot (mint visszhang)!
+Ez mindössze annyit csinál, hogy kiírja, amit írunk neki:
+
+```bash
+echo "Hello World!"
+# kiírja, hogy Hello World! és rak egy új sor karaktert a végére
+```
+
+Tekintsük meg példákon keresztül a parancsok kombinálását!
+
+## Példák
+
+### 1. példa
+Próbáljunk meg belépni egy `tmp` nevű jegyzékbe, és ha nem sikerül, akkor írjunk ki hibát!
+
+```bash
+cd tmp || echo "Error"
+```
+
+A fönti példában az első parancs a `cd tmp`. A két vonal jelentése, hogy ha az első
+parancs elbukik, akkor hajtódjon végre a második parancs. A második parancs `echo "Error"`
+Tehát ha `cd tmp` elbukik, akkor `echo "Error"` végrehajtódik, egyébként nem.
+
+Hajtsuk végre a parancsot úgy, hogy a `tmp` mappa nem létezik, és nézzük meg az eredményt!
+Ezután hozzuk létre a mappát, és adjuk ki úgy is a parancsot!
+
+### 2. példa
+Hozzuk létre a `dir_1` nevű mappát, és ha sikerül, lépjünk is bele (egyébként ne csináljunk
+semmit)!
+
+```bash
+mkdir dir_1 && cd dir_1
+```
+
+A fönti az előző példához nagyon hasonló, csak itt a második parancs akkor hajtódik végre,
+ha az első sikeres volt.
+
+### 3. példa
+Próbáljunk meg belépni egy mappába, és ha sikerül, akkor írjuk ki a working directory-t,
+egyébként hozzuk létre a mappát! (working directory kiírása: `pwd`)
+
+```bash
+cd dir_2 && pwd || mkdir dir_2
+```
+
+A fönti parancs rövid magyarázatra szorulhat. 3 részből áll:
+1. `cd dir_2` -- megpróbál belépni a mappába
+2. `pwd` -- kiírja a jelenlegi working directory-t
+3. `mkdir dir_2` -- létrehozza a mappát
+
+Kétféleképpen történhez a végrehajtás, attól függően, hogy a mappába be lehet-e lépni.
+1. **Az első parancs elbukik:** az && jel utáni parancs nem hajtódik végre (mert az
+csak akkor hajtódik végre, ha az előtte lévő parancs sikeres), a || jel utáni viszont
+igen, mert azelőtt hiba lépett fel. Tehát létrejön a directory.
+2. **Az első parancs sikeresen lefut:** az && jel utáni parancs végrehajtódik, bizonyára
+sikeresen, mert a `pwd` parancsnak nincs itt érdemi lehetősége elbukni. Ekkor az || jel
+utáni parancs nem hajtódik végre, mert előtte nem volt hiba.
+
+További lehetőségek lépnének fel, ha `pwd` elbukhatna.
+
+Megjegyzendő, hogy alapesetben, ha kétszer egymás után adjuk ki a parancsot, akkor
+elsőre hiba lesz, másodjára nem.
+
+**Kérdés:** mi lesz, ha a `dir_2` mappa már létezik, de nincs rajta execute jogosultságunk?
+
+### 4. példa
+Próbáljunk meg belépni a `dir_3` mappába, és ha nem sikerül, hozzuk létre azt, majd 
+lépjünk bele! Mindezt természetesen oldjuk meg egyetlen sor parancsban!
+
+**Megoldás:**
+
+```bash
+cd dir_3 || mkdir dir_3 && cd dir_3
+```
+
+### 2. feladat
+Az előzőleg létrehozott `tmp` mappában készítsünk egy hello.txt nevű fájlt!
+A fájlba írjunk bele az `echo` parancs segítségével (elismétli, amit írsz neki),
+először annyit, hogy "hello world!", másodszor annyit, hogy "goodbye world!".
+
+**Megoldás:**
+```bash
+touch hello.txt
+echo "hello world!" > hello.txt
+echo "goodbye world!" > hello.txt # why doesn't it work? read upwards :)
+cat hello.txt # this command will print the content of hello.txt to the terminal
+```
+
 ### Script fájlok
 Egy parancsot nem csak a terminálba lehet beírni. Helyette el lehet tárolni 
 
@@ -93,29 +181,6 @@ A feladatok megoldásai megtalálhatóak az
 a megoldókulcsot igénylő
 feladatokhoz eleve odaírtam a megoldást is. Amelyiknél nincs megoldás, ott legalább a 
 próbálkozás és a jegyzetekben való utánaolvasás szükséges!
-
-### 1. feladat
-Próbáljunk meg belépni egy `tmp` nevű jegyzékbe, és ha nem sikerül, akkor hozzuk létre azt, és 
-lépjünk bele. Mindezt oldjuk meg egyetlen sor parancsban.
-
-**Megoldás:**
-
-```bash
-cd tmp || mkdir tmp && cd tmp
-```
-
-### 2. feladat
-Az előzőleg létrehozott `tmp` mappában készítsünk egy hello.txt nevű fájlt!
-A fájlba írjunk bele az `echo` parancs segítségével (elismétli, amit írsz neki),
-először annyit, hogy "hello world!", másodszor annyit, hogy "goodbye world!".
-
-**Megoldás:**
-```bash
-touch hello.txt
-echo "hello world!" > hello.txt
-echo "goodbye world!" > hello.txt # why doesn't it work? read upwards :)
-cat hello.txt # this command will print the content of hello.txt to the terminal
-```
 
 ### 3. feladat
 
@@ -203,3 +268,8 @@ tudjuk oldani.
 program outputját hogyan tudjuk egy fájlba irányítani! Trükkös, mert a `time` nem a standard 
 outputra ír, hanem a standard error streamre. Ezután keressük meg, hogy az `scp` programot 
 hogyan tudjuk használni!
+
+## Összefoglalás
+A következő parancsokat tanultuk:
+- `cat` kiírja egy fájl tartalmát a standard outputra.
+- ``
