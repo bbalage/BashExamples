@@ -119,8 +119,7 @@ pwd
 ```
 
 A kapott output eleje nem egyezik azzal, amit a terminálban olvashatunk. Ha megfigyeljük,
-akkor a `~` jel felcserélődött egy másik "ösvénnyel"
-(továbbiakban  az "ösvényre" *path*-ként fogok hivatkozni). A `~` jel
+akkor a `~` jel felcserélődött egy másik "ösvénnyel" (vagy *path*-szal). A `~` jel
 egy rövidítés a saját felhasználói gyökér mappánkra. Nálam a `~` jelentése `/home/bbalage`,
 míg más felhasználóknál ez más lesz.
 
@@ -133,7 +132,8 @@ Szintén megemlítendő, hogy Unix rendszerben a tényleges gyökérmappát a `/
 
 Lépjünk be a gyökér mappába, és írassuk ki a tartalmát!
 
-Egy mappa kiírására az `ls` parancsot tudjuk használni. Az `ls` parancsnak opcionálisan
+Egy mappa tartalmának kiírására az `ls` parancsot tudjuk használni.
+Az `ls` parancsnak opcionálisan
 megadhatjuk, hogy melyik jegyzék tartalmát írja ki. Ha nem adunk meg semmit, akkor a 
 working directory tartalmát írja ki.
 
@@ -160,7 +160,7 @@ annyi a jelentősége, hogy külső parancsokat lehet külön telepíteni, mint 
 plugineket, és előfordulhat, hogy nem minden külső parancs elérhető egy adott rendszeren
 (mert nem adtak a telepítőhöz, és a rendszergazda sem telepítette fel külön).
 - `dev`: a "devices" rövidítése, és a fizikai vagy logikai eszközök leíró fájljait
-tartalmazza (háttértár, cpu magok, terminálok, stb.)
+tartalmazza (háttértár, cpu magok, terminálok, joystick input, billentyűzet, egér, stb.)
 - `root`: a rendszer felhasználó home mappája.
 - `home`: a többi felhasználó (és a saját felhasználónk) home mappáit tartalmazó mappa.
 
@@ -180,7 +180,7 @@ relative.
 
 A `touch` parancs frissíti egy argumentumként megadott fájlt utolsó elérési és utolsó 
 változtatási dátumát (last accessed, last modified). Ha nem létezik a fájlt, amit 
-megadtunk, akkor létrehozza azt. Így a `touch` parancsot könnyen lehet fájlok létrehozására
+megadtunk, akkor létrehozza azt. Így a `touch` parancsot szoktuk fájlok létrehozására
 használni.
 
 ### 5. példa
@@ -188,14 +188,14 @@ használni.
 Írassuk ki a `szgyak/lesson1` mappa teljes tartalmát a benne lévő fájlok tulajdonosaival együtt!
 
 ```bash
-cd ~/szgyak # csak akkor, ha közben elvándoroltunk
+cd ~/szgyak/lesson1
 ls -la
-ls -la ~/szgyak # ha így adjuk ki a parancsot, akkor mindegy mi épp a working directory
+ls -la ~/szgyak/lesson1 # ha így adjuk ki a parancsot, akkor mindegy mi épp a working directory
 ```
 
 Azt látjuk, hogy az `ls` parancsot némileg máshogy adtuk ki, mint eddig.
-Egy parancs működését lehet módosítani kapcsolók segítségével. Egy kapcsoló a parancs után jön,
-de ezen túl az elhelyezkedése változhat parancsonként és kapcsolónként. Szinte minden 
+Egy parancs működését lehet módosítani kapcsolók segítségével. Egy kapcsoló a parancs
+után jön, de az elhelyezkedése változhat parancsonként és kapcsolónként. Szinte minden 
 parancsnak vannak kapcsolói, némelyiknek egészen rengeteg, és egészen bonyolultak.
 Ahhoz, hogy megnézzük, mik egy parancs kapcsolói, és mire valók, hogyan működnek,
 vagy az internetet, vagy a **manual page-et** hívjuk segítségül.
@@ -219,7 +219,7 @@ ls -la # ez a két előző kapcsoló kombinálva (mintha mindkettőt kiadtuk vol
 A manualból megtudhatjuk ezekről a következőket:
 
 - Az `l` kapcsoló bővebb adatokat jelenít meg a fájlokról és mappákról, nem csak a nevüket.
-- Az `a` kapcsoló olyan mappákat is megjelenít, amik `.` jellel kezdődnek, vagy épp csak abból állnak.
+- Az `a` kapcsoló olyan mappákat is megjelenít, amik `.` jellel kezdődnek, vagy épp csak abból állnak. Ezek rejtett fájlok vagy mappák.
 - Az `la` kapcsoló a kettő kombinációja: bővebb adat, és ponttal kezdődő nevek is.
 
 A ponttal kezdődő nevek valamilyen kisegítő dologhoz szoktak tartozni, amit nem szeretnénk,
@@ -237,7 +237,7 @@ mkdir ~/szgyak/lesson1/tmp
 # ha a working directory a ~/szgyak/lesson1 akkor elég ennyi is:
 # mkdir tmp
 ls -a ~/szgyak/lesson1/tmp # full path
-ls -a tmp # relative path; függ a working directory-tól (hogy "hol vagyunk")
+ls -a tmp # relative path; függ a working directory-tól (tehát attól, hogy "hol vagyunk")
 ```
 
 Azt látjuk. hogy még az üres jegyzéknek is van két bejegyzése: `.` és `..`
@@ -273,7 +273,7 @@ rmdir tmp
 # ugyanaz történik, csak egyik esetben full path, másik esetben relative path a hivatkozás típusa
 ```
 
-`rmdir` = remove director; kellően beszédes név, hogy ne kelljen magyarázni.
+`rmdir` = remove directory; kellően beszédes név, hogy ne kelljen magyarázni.
 
 ### 8. példa
 Töröljük a `whatever.txt` fájlt!
@@ -283,8 +283,8 @@ rm ~/szgyak/lesson1/whatever.txt
 ```
 
 `rm` = remove; szintén beszédes. Annyit viszont érdemes megemlíteni, hogy ez a parancs nem 
-a kukába rakja a fájlokat, hanem törli őket. Nem fogjuk tudni a kukából visszaszerezni azt,
-amitől így szabadultunk meg.
+a kukába rakja a fájlokat, hanem ténylegesen törli őket. Nem fogjuk tudni a kukából
+visszaszerezni azt, amitől így szabadultunk meg.
 
 ### 9. példa
 Hozzuk létre a következő mappaszerkezetet a `~/szgyak/lesson1` mappán belül (minden fájlt
@@ -396,7 +396,7 @@ Tehát az a fájl, amit eddig `src/util.h` ösvényen értünk el, azt a parancs
 `src/utils/util.h` elérési úton fogjuk elérni.
 
 ### 13. példa
-Nevezzük a `textures` mappában található `readme.txt` fájlt `readme_sprites.txt` fájlra.
+Nevezzük át a `textures` mappában található `readme.txt` fájlt `readme_sprites.txt` fájlra.
 
 ```bash
 mv assets/textures/readme.txt assets/textures/readme_sprites.txt
@@ -438,7 +438,7 @@ ha még a fájl nem létezik, akkor létrehozza azt.
 - `rm` fájlok, mappák törlése.
 - `tree` karaktergrafikusan kirajzolja a mappaszerkezetet.
 - `cp` fájlok, mappák másolása.
-- `mv` fájlok, mappák mozgatása.
+- `mv` fájlok, mappák elérési útjának módosítása (tehát áthelyezése és/vagy átnevezése).
 - `man` manual entry megnyitása egy parancshoz.
 
 ## Feladatok
@@ -450,7 +450,7 @@ ha még a fájl nem létezik, akkor létrehozza azt.
 Induljunk felderítő útra a fájlrendszerben! Nézzünk bele más felhasználók home mappáiba!
 Keressük meg a legvalószínűbb helyet, ahova az értékes beadandóikat pakolják majd!
 Ha a fájljaik mindenki számára olvashatóak, akkor meg is nézhetjük őket. Ha írhatók, akkor 
-törölhetjük is őket (következő órán megnézzük a jogosultságokat).
+törölhetjük is őket. Tanulság: ügyeljünk a jogosultságokra (következő órán megnézzük őket).
 
 ### 2. feladat
 

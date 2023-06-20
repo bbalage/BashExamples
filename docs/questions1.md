@@ -82,7 +82,7 @@ Melyik paranccsal törölhetünk üres mappát?
 ### 17. kérdés
 Az alábbiak közül melyik írja le legpontosabban a `pwd` parancs működését?
 
-a. Kiírja a jelenlegi munkakönyvtár abszolút elérési útját.
-b. Kiírja a jelenlegi munkakönyvtár relatív elérési útját.
-c. Megváltoztatja a jelenleg bejelentkezett felhasználó jelszavát.
+a. Kiírja a jelenlegi munkakönyvtár abszolút elérési útját.\
+b. Kiírja a jelenlegi munkakönyvtár relatív elérési útját.\
+c. Megváltoztatja a jelenleg bejelentkezett felhasználó jelszavát.\
 d. Megváltoztatja a paraméterként megadott felhasználó jelszavát.

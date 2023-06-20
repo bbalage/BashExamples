@@ -1,6 +1,6 @@
 # Válaszok
 
-## 1. Kérdéshalmaz
+## 1. Kérdéssor
 1. Abszolút.
 2. Relatív.
 3. Relatív.
@@ -18,3 +18,28 @@
 15. Hamis.
 16. `rmdir` vagy `rm`, de utóbbi esetén kell a rekurzív kapcsoló (`rm -r mappanev`)
 17. a.
+
+## 2. Kérdéssor
+1. robert
+2. ruby
+3. hamis
+4. hamis (a ruby csoportba tartozók szerkeszthetik)
+5. igaz (csak módosítani nem tudja akárki)
+6. csak a fájl tulajdonosa számára
+7. 666
+8. 640
+9. 655
+10. 777
+11. 700
+12. 744
+13. Mindenki.
+14. Igen.
+15. Igen.
+16. Nem.
+17. Mindenki.
+18. Senki.
+19. A tulajdonos felhasználó és a tulajdonos csoport tagjai.
+20. A tulajdonos felhasználó.
+21. Senki.
+
+## 3. kérdéssor
