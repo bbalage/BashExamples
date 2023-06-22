@@ -43,3 +43,19 @@
 21. Senki.
 
 ## 3. kérdéssor
+1. semmit
+2. OK
+3. Semmit (csak a hibát)
+4. Making directory\
+   OK
+5. OK
+6. Making directory\
+   Problem
+7. Igen
+8. Igen
+9. Nem
+10. Nem
+11. Igen
+12. 1
+13. 1
+14. 6

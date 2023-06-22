@@ -283,127 +283,98 @@ Bumfolt Rupor;1967.09.11.;06201112233;Marketing
 
 Ebben a fájlban fogunk keresgetni a `grep` parancs segítségével.
 
-Írassuk ki a következőket a terminálba (egyetlen sornyi paranccsal):
-- Azokat a sorokat, ahol a személy ért az IT-hez.
-- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
-- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
-- Azokat a sorokat, ahol a telefonszám 30-as.
-- Azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
-- Azokat a sorokat, ahol a személy 2000-ben vagy utána született.
-- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
-- Az első 3 sort, a fejléc nélkül.
+### 10. példa
+Írassuk ki azokat a sorokat, ahol a személy skillje az IT!
 
 ```bash
-cat people.csv | grep "IT" # the first one... do the rest!
+cat people.csv | grep "IT"
 ```
 
-### Reguláris kifejezések
-A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
-kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
-egy másik szövegben. Egy rövid összefoglaló található a föntebb megjelölt forrásokban, de
-a legbőségesebb tudástár ilyen téren az [internet](https://www.regular-expressions.info/).
+A `cat` paranccsal kiolvassuk a teljes `people.csv` fájlt, és a `|` operátorral
+"belevezetjük" a `grep` parancsba. Emellett megadjuk, hogy mit keresünk az 
+adott sorban: "IT". A `grep` kiírja azokat a sorokat, amiben benne van a 
+megadott szöveg.
+
+### 11. példa
+Írassuk ki azokat a sorokat, ahol a telefonszám 30-as.
+
+```bash
+cat people.csv | grep "0630"
+```
+
+### 12. példa
+Írassuk ki azokat a sorokat, ahol a személy 2000-ben vagy utána született.
+
+```bash
+cat people.csv | grep ";2"
+```
+
+### 13. példa
+Írassuk ki azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
+
+```bash
+cat people.csv | grep ";*ing"
+```
+
+Ez már a következő óra anyaga (reguláris kifejezések), de a csillagról
+egyéb tanulmányainkból már tudhatjuk, hogy általában mindenre illeszkedik.
+Sajnos sokkal bonyolultabb kereséseket nem tudunk megvalósítani reguláris 
+kifejezések nélkül. Ezeket már a következő órára hagyjuk.
+
+### 14. példa
+Készítsünk egy `IT.txt` nevű fájlt az alábbi tartalommal:
+
+```
+People at IT:
+***
+```
+
+Ahol `***` helyére rakjuk be a `people.csv`-ből az IT-s emberek sorait.
+
+```bash
+echo "People at IT:" > IT.txt
+cat people.csv | grep "IT" >> IT.txt
+```
+
+A fönti sorokban kombináltuk a stream átirányító operátort a csővezeték operátorral.
+Külön-külön már láttuk a működésüket, ami egyben sem bonyolultabb. *Mindössze balról
+jobbra kell olvasni, hogy mi történik, és akkor egyértelmű lesz.*
 
 ## Feladatok
-Az alábbi feladatokat hajtsuk végre a jegyzetekben található parancsokkal, regulári
-kifejezésekkel, vagy ezeknek a kombinálásával!
+Az alábbi feladatokat csináljuk meg önállóan!
 
-**Lépjünk be egy az órára létrehozott jegyzékünkbe (lesson2), és a feladatokat hajtsuk
-végre ott!**
+### 1. feladat
+Gyűjtsük ki egy `voda.txt` nevű fájlba a `people.csv` fájlból azokat, akik 
+70-es telefonszámmal rendelkeznek.
 
-A feladatok megoldásai megtalálhatóak az
-[alábbi mappában](https://github.com/bbalage/BashExamples/tree/master/bash/lesson2), viszont
-a megoldókulcsot igénylő
-feladatokhoz eleve odaírtam a megoldást is. Amelyiknél nincs megoldás, ott legalább a 
-próbálkozás és a jegyzetekben való utánaolvasás szükséges!
+### 2. feladat
+Próbáljunk meg belépni a `dir_4` nevű mappába, és ha sikerül, hozzunk létre benne egy
+`im_tired.txt` nevű fájlt. Ha nem sikerül, hozzuk létre a `dir_4` mappát!
 
 ### 3. feladat
-
-Készítsünk nano segítségével egy csv fájlt! A csv fájl csak egy text fájl, amiben strukturálva
-vannak az adatok, nagyjából úgy, mint egy táblázatban. Például:
-```
-Name;Birthdate;Phone;Skill
-Robert Bob;1997.09.12.;06201975555;IT
-Zsuber Driver;1988.10.11.;06304445555;Driving
-Hatori Hanso;1966.01.11.;06301234555;Smithing
-Rinaldo Orson;2001.05.24.;06709330000;IT
-Travis Camel;1970.10.01.;06301717171;Horses
-Dagobert McChips;1956.08.31.;06700001111;Cooking
-Bumfolt Rupor;1967.09.11.;06201112233;Marketing
-```
-
-A fönti tartalommal hozza létre a people.csv fájlt!
-
-Írassuk ki a következőket a terminálba (egyetlen sornyi paranccsal):
-- Azokat a sorokat, ahol a személy ért az IT-hez.
-- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
-- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
-- Azokat a sorokat, ahol a telefonszám 30-as.
-- Azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
-- Azokat a sorokat, ahol a személy 2000-ben vagy utána született.
-- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
-- Az első 3 sort, a fejléc nélkül.
-
-```bash
-cat people.csv | grep "IT" # the first one... do the rest!
-```
+Próbáljuk meg kilistázni a `dir_5` nevű mappa tartalmát. Ha nem sikerül, ne írjunk 
+hibát, hanem hozzuk létre a `dir_5` mappát!
 
 ### 4. feladat
-Írjunk egy scriptet, amely leszed a következő url-ről egy text file-t, majd kiírja belőle 
-a valid email címeket egy `emails.txt` fájlba, aztán törli az eredetileg letöltött fájlt.
+Hozzuk létre az alábbi fájlokat egy `pictures` nevű directory-ban:
 
-Url: https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/file1.txt
-
-Az emails.txt fájl tartalma a következő kell legyen:
 ```
-Jupici@gmail.com
-howard.wayland@citromail.hu
-ubuntu@gmail.com
-bestrapper@gmail.com
-ET@gmail.com
-harapos@gmail.com
-bob@gmail.com
+1.jpg
+100.jpg
+200.jpg
+1.png
+10.png
+20.png
+234.jpg
+10.svg
 ```
 
-**Help:** érdemes ránézni a `wget`, `cat`, `grep` és `rm` parancsokra.
-
-### 5. feladat
-Készítsünk egy scriptet, ami lefordít, majd lefuttat egy C programot, majd az eredményét és 
-a futási idejét egy fájlba írja, majd az eredményt felmásolja jerry-re.
-
-A program rendelkezzen a következő kóddal:
-
-```c
-// This should be in hello.c
-#include "stdio.h"
-
-int main()
-{
-    printf("Hello World!\n");
-}
-```
-
-A fordításhoz használjuk a `gcc` programot! A következőképpen:
-
-```bash
-gcc hello.c -o hello
-```
-
-A lefordított program ekkor a `hello` fájlba kerül. A futtatást a következőképpen vitelezhetjük
-ki:
-
-```bash
-./hello
-```
-
-Az idő mérésére alkalmas a `time` program. A jerry-re való felmásolást az `scp` programmal meg
-tudjuk oldani.
-
-**Önálló feladat:** Az internet segítségével találjuk meg, hogy a `time` program és a `hello`
-program outputját hogyan tudjuk egy fájlba irányítani! Trükkös, mert a `time` nem a standard 
-outputra ír, hanem a standard error streamre. Ezután keressük meg, hogy az `scp` programot 
-hogyan tudjuk használni!
+Listázzuk ennek a mappának a tartalmát, és minden `png` fájlt írjunk bele egy
+`sprites.list` nevű fájlba! (Tipp: a korábbiakban `cat people.csv` parancsot most
+az `ls pictures` parancs fogja felváltani.)
 
 ## Összefoglalás
 A következő parancsokat tanultuk:
 - `cat` kiírja egy fájl tartalmát a standard outputra.
-- ``
+- `echo` kiírja a standard outputra a paraméterként megkapott szöveget.
+- `grep` kiírja a megadott mintára illeszkedő sorokat.

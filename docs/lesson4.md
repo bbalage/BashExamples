@@ -1,4 +1,20 @@
 # 4. óra
+
+### 14. példa
+
+- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
+- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
+- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
+- Az első 3 sort, a fejléc nélkül.
+
+
+### Reguláris kifejezések
+A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
+kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
+egy másik szövegben. Egy rövid összefoglaló található a föntebb megjelölt forrásokban, de
+a legbőségesebb tudástár ilyen téren az [internet](https://www.regular-expressions.info/).
+
+
 Ezen az órán példakódok és utánuk feladatok lesznek. A példakódok a feladat megoldásában
 való segítségre szolgálnak. Bizonyos feladatoknál hasznosak lehetnek.
 
