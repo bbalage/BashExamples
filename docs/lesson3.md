@@ -141,27 +141,161 @@ lépjünk bele! Mindezt természetesen oldjuk meg egyetlen sor parancsban!
 cd dir_3 || mkdir dir_3 && cd dir_3
 ```
 
-### 2. feladat
-Az előzőleg létrehozott `tmp` mappában készítsünk egy hello.txt nevű fájlt!
-A fájlba írjunk bele az `echo` parancs segítségével (elismétli, amit írsz neki),
-először annyit, hogy "hello world!", másodszor annyit, hogy "goodbye world!".
+---
+A fönti példákat tovább lehetne kombinálni, de nem érdemes. Már a három részből álló
+kombinált parancsok is ritkák, ugyanis ránézésre nem a legjobban érthetők. Gyakrabban 
+használjuk a stream-ek (folyamok) átvezetését egyikből másikba. Nézzünk erre is néhány
+példát!
 
-**Megoldás:**
+---
+
+### 5. példa
+Hozzunk létre egy fájlt xyz.txt néven, és írjuk bele `echo` segítségével a nevünket!
+
 ```bash
-touch hello.txt
-echo "hello world!" > hello.txt
-echo "goodbye world!" > hello.txt # why doesn't it work? read upwards :)
-cat hello.txt # this command will print the content of hello.txt to the terminal
+touch xyz.txt
+echo "Johnny Bravo" > xyz.txt
 ```
 
-### Script fájlok
-Egy parancsot nem csak a terminálba lehet beírni. Helyette el lehet tárolni 
+Megjegyzendő, hogy a `touch` valójában felesleges, mert a második parancsnál, ha nem 
+létezik a fájl, akkor a stream irányítás létrehozza.
 
-### Hasznos parancsok
-Az alábbi [jegyzetben](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak2.pdf) fel
-vannak sorolva hasznos parancsok, kicsit bővebb magyarázatért pedig a
-[következő](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak4.pdf) jegyzetet is
-érdemes megtekinteni.
+```bash
+echo "Johnny Bravo" > xyz.txt # Ha xyz.txt nem létezik, akkor itt létrejön
+```
+
+A fájl tartalmát megnézhetjük `nano` vagy `cat` segítségével is.
+
+### 6. példa
+Készítsünk egy `www.txt` nevű fájlt, és írjuk bele `echo` segítségével a nevünket 
+és a neptun kódunkat! Ezután másoljuk be ennek a fájlnak a tartalmát az `xyz.txt`
+fájl végére!
+
+```bash
+echo "Donald Duck" > www.txt
+echo "QUACK1" >> www.txt
+cat www.txt >> xyz.txt
+# Nézzük is meg az xyz.txt tartalmát:
+cat xyz.txt
+```
+
+A fönti parancsoknál elismételendő, hogy `>` kitörli a fájl eredeti tartalmát,
+`>>` pedig hozzáír a fájl eddigi tartalmához.
+
+### 7. példa
+Kérdezzük le a jelenlegi mappa tartalmát, és írjuk bele a visszaadott szöveget
+az `content.txt` fájlba!
+
+```bash
+ls > content.txt
+```
+
+Tanulság: bármely parancs outputját bele lehet irányítani egy fájlba.
+
+### 8. példa
+Megesik, hogy installálunk valamit a gépre, és az installálás közben olyan szövegek
+íródnak ki, amikre nincs szükségünk, nem akarjuk látni őket. Szimuláljuk ezt az
+`ls -la` paranccsal! Adjuk ki a parancsot, de ne jelenjen meg az outputja!
+(Igen, ennek nincs sok értelme, de nem tanultunk még olyan parancsot, aminek az 
+outputját van értelme ignorálni. Úgyhogy nézzük meg az output ignorálást, és 
+felejtsük el, hogy erre a parancsra biztos nem használnánk!)
+
+```bash
+ls -la > /dev/null
+```
+
+Magyarázat: a `/dev/null` egy fájl a rendszeren (ami a gyökér mappán belül lévő `dev`
+mappában van). Ennek a fájlnak az a különlegessége, hogy amit beleírunk, az eltűnik.
+Konkrétan arra szolgál, hogy az ignorálandó streameket beleírányítsuk. Nem fogjuk
+használni semmire, de ha látjuk valahol tutorialban, akkor ne lepődjünk meg rajta!
+Ez egy speciális fájl, aminek nincs és nem is lesz tartalma.
+
+### 9. példa
+Próbáljuk meg ismét létrehozni `dir_3`-at, de úgy, hogy már létezik! A hibaüzenet
+ne jelenjen meg!
+
+Azt vesszük észre, hogy a következő megoldás nem működik:
+
+```bash
+mkdir dir_3 > /dev/null
+```
+
+Itt jön a képbe az, hogy a rendszeren három standard csatornát különböztetünk meg:
+- **stdin:** *Standard input* rövidítése. A felhasználó által beírt szöveg megy rá.
+Azonosító száma: 0.
+- **stdout:** *Standard output* rövidítése. A programok által kiírt adatok mennek rá
+(`echo`, `ls`, stb.). Eddig többnyire ezt a csatornát láttuk a terminálunkon
+megjelenni.
+- **stderr:** *Standard error* rövidítése. Ide mennek a programok által kiírt
+hibaüzenetek. Ezek is megjelennek a terminálunkon, ezért nem látjuk a különbséget
+közte és az *stdout* között.
+
+A fönti megoldás azért nem működik, mert a `>` operátor csak az *stdout* csatornát 
+irányítja bele a `/dev/null` fájlba, az *stderr* csatornát nem.
+
+Megoldás:
+
+```bash
+mkdir dir_3 2> /dev/null
+```
+
+Ebben az esetben annyi történt, hogy odaírtuk a `>` elé annak a csatornának az 
+azonosítóját, amit át szeretnénk irányítani. Itt megjegyzendő, hogy a következő
+két parancs teljesen ugyanazt csinálja:
+
+```bash
+ls > random_something.txt # stdout csatornát beleírányítja a fájlba
+ls 1> random_something.txt # szintén az stdout-ot irányítja bele, csak ki is írtuk
+```
+
+Alapértelmezettként `>` és `>>` operátorok az 1-es (standard output) csatornát 
+irányítják át.
+
+A csatorna irányításokra később vissza fogunk térni, mikor mi magunk is írunk
+hibaüzeneteket.
+
+---
+## grep parancs
+A harmadik féle parancskombinálás a `|` jel (amit bash nyelvben "csővezeték operátor"
+néven is ismernek) által lehetséges. **Ezt használják leggyakrabban.** Mint azt 
+korábban olvashattuk, ez az operátor **az egyik parancs kimenetét egy másik parancs
+bemenetére irányítja**. Emiatt kicsit olyan, mintha egy csővel összekötné a kettőt
+(ezért a "csővezeték operátor" elnevezés).
+
+A leggyakrabban ezt az operátort a `grep` paranccsal kombinálva használják. Ez egy 
+nagyon (nagyon-nagyon) hasznos parancs, úgyhogy sokat fogunk vele foglalkozni.
+Gyakorlatilag ennyit csinál: **kiválasztja a bemenetéből azokat a sorokat, 
+amelyek illeszkednek egy megadott mintára**.
+
+Nézzük meg példákon keresztül! Először hozzunk létre egy fájlt `people.csv`
+néven. A tartalma a következő legyen:
+
+```
+Name;Birthdate;Phone;Skill
+Robert Bob;1997.09.12.;06201975555;IT
+Zsuber Driver;1988.10.11.;06304445555;Driving
+Hatori Hanso;1966.01.11.;06301234555;Smithing
+Rinaldo Orson;2001.05.24.;06709330000;IT
+Travis Camel;1970.10.01.;06301717171;Horses
+Dagobert McChips;1956.08.31.;06700001111;Cooking
+Bumfolt Rupor;1967.09.11.;06201112233;Marketing
+```
+
+Ebben a fájlban fogunk keresgetni a `grep` parancs segítségével.
+
+Írassuk ki a következőket a terminálba (egyetlen sornyi paranccsal):
+- Azokat a sorokat, ahol a személy ért az IT-hez.
+- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
+- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
+- Azokat a sorokat, ahol a telefonszám 30-as.
+- Azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
+- Azokat a sorokat, ahol a személy 2000-ben vagy utána született.
+- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
+- Az első 3 sort, a fejléc nélkül.
+
+```bash
+cat people.csv | grep "IT" # the first one... do the rest!
+```
 
 ### Reguláris kifejezések
 A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
