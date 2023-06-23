@@ -1,5 +1,97 @@
 # 4. óra
 
+Ezen az órán kicsit bővebben megnézzük a "csővezetékelést" Bashben,
+és a reguláris kifejezésekbe is betekintünk.
+
+Készítsük elő a munkánkat azzal, hogy létrehozunk egy `lesson4`
+nevű nappát, benne pedig a `people.csv` fájlt az előző óráról ismert
+tartalommal (legegyszerűbb tehát kopizni).
+
+```bash
+mkdir szgyak/lesson4
+cd szgyak/lesson4
+cp ../lesson3/people.csv ./ # bemásolja a fájlt az eredeti néven ebbe a directoryba 
+```
+
+## Csővezeték operátor láncolása
+Hasonlóan a `&&` és `||` operátorokhoz, a `|` (pipeline) operátor is 
+láncolható. Általánosan:
+
+```bash
+parancs1 | parancs2 | parancs3
+```
+
+Ha a `people.csv` fájlból ki akarjuk olvasni azokat az embereket,
+akiknek 70-es a telefonszáma és az 1900-as években születtek,
+akkor azt megtehetjük például így:
+
+```bash
+cat people.csv | grep ";0670" | grep ";19"
+```
+
+Egy ábrával szemléltetve ilyenkor a következő történik:
+
+![filter_commands](img/filter_commands.png)
+
+Tehát a `grep` parancs "megszűrte" a bemenetét, mielőtt a kimenetére
+engedte. Azokat a parancsokat, amelyek így viselkednek, "szűrő"
+parancsoknak nevezzük.
+
+Nézzünk meg néhányat példákon keresztül!
+
+### 1. példa
+Írjuk ki a `people.csv` fájl utolsó három sorát!
+
+```bash
+
+```
+
+### 2. példa
+Írjuk ki a `people.csv` fájl első három sorát, fejléccel együtt!
+
+```bash
+
+```
+
+### 3. példa
+Írjuk ki a `people.csv` fájl utolsó olyan sorát, ahol a telefonszám
+harmincas!
+
+```bash
+
+```
+
+### 4. példa
+Írjuk ki a `people.csv` fájl első három sorát, fejléc nélkül!
+
+```bash
+
+```
+
+### 5. példa
+Írjuk ki a `/dev` mappa első 10 fájlját vagy directory-ját, akkor 
+is, ha azok rejtettek! Ne jelenjenek meg a `.` és `..` speciális
+jegyzékek!
+
+```bash
+
+```
+
+### 6. példa
+Írjuk ki a `/dev` mappa utolsó 5 diskjét (most tekintsük
+azokat a fájlokat disknek, amiknek a tulajdonos csoportja disk)!
+
+```bash
+
+```
+
+### 7. példa
+Írjuk ki a `people.csv` fájlból csak az emberek neveit!
+
+```bash
+
+```
+
 ### 14. példa
 
 - Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
