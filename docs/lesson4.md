@@ -34,8 +34,19 @@ Egy ábrával szemléltetve ilyenkor a következő történik:
 ![filter_commands](img/filter_commands.png)
 
 Tehát a `grep` parancs "megszűrte" a bemenetét, mielőtt a kimenetére
-engedte. Azokat a parancsokat, amelyek így viselkednek, "szűrő"
-parancsoknak nevezzük.
+engedte. Azokat a parancsokat, amelyek így viselkednek, "filter"-eknek
+(vagy szűrő parancsoknak) nevezzük. **Filter tehát az a parancs, ami a
+bemenetről olvas, csinál valamit, majd kiírja az eredményt.** Ezekből néhány:
+- `head` az első x sort írja ki a kimenetre.
+- `tail` az utolsó x sort írja ki a kimenetre.
+- `sort` rendezi a bemenetet, és kiírja a kimenetre.
+- `grep` ismerjük.
+- `wc` megszámolja a szavak, karakterek, sorok számát, és kiírja a kimenetre.
+- `rev` soronként fordítva írja ki a bemenetet.
+- `uniq` rendezett adatokban vizsgál számosságot és egyediséget (például megnézi,
+hogy egy sor hányszor szerepel).
+- `cut` oszlopokat vág ki az adatból.
+- `tr` karaktereket cserél ki az adatban.
 
 Nézzünk meg néhányat példákon keresztül!
 
@@ -43,68 +54,178 @@ Nézzünk meg néhányat példákon keresztül!
 Írjuk ki a `people.csv` fájl utolsó három sorát!
 
 ```bash
-
+cat people.csv | tail --lines=3
+# A következő parancs ugyanezt csinálja (csak nem kell kiírni, hogy '--lines')
+cat people.csv | tail -3
 ```
+
+A `tail` parancs ugyanúgy szűrőként működik, mint a `grep`, csak más műveletet
+hajt végre. A parancs neve után megadott számnak megfelelő mennyiségű sort írja
+ki a fájl végéről.
 
 ### 2. példa
 Írjuk ki a `people.csv` fájl első három sorát, fejléccel együtt!
 
 ```bash
-
+cat people.csv | head --lines=3
 ```
+
+A `head` ugyanúgy működik, mint a `tail`, csak nem az utolsó, hanem az első sorokat
+írja ki.
 
 ### 3. példa
 Írjuk ki a `people.csv` fájl utolsó olyan sorát, ahol a telefonszám
 harmincas!
 
 ```bash
-
+cat people.csv | grep ";0630" | tail -1
+# Vagy:
+cat people.csv | grep ";0630" | tail --lines=1
 ```
 
+A fönti parancs az eddigiek alapján könnyen érthető, ha tudjuk, hogy a csővezetéket
+sok parancson keresztül is láncolhatjuk.
+
 ### 4. példa
+Írjuk ki a `people.csv` fájl összes sorát, kivéve az utolsó ötöt!
+
+```bash
+cat people.csv | head --lines=-4
+# Vagy a következő is ugyanezt csinálja
+cat people.csv | head
+```
+
+Ha a `--lines` után negatív számot adunk meg, akkor nem az első *n* darabot írja ki,
+hanem az utolsó *n* darabot **nem** írja ki. Hasonló a `tail` működése is, egy kis 
+csavarral, amit meglátunk a következő példában.
+
+### 5. példa
 Írjuk ki a `people.csv` fájl első három sorát, fejléc nélkül!
 
 ```bash
-
+cat people.csv | tail --lines=+2 | head --lines=3
+# Vagy rövidebben:
+cat people.csv | tail +2 | head -3
 ```
 
-### 5. példa
+Ebben az esetben a `tail` az *n*-edik sornál kezdi a kiírást, ahol a számot `+` jellel
+adjuk meg (nem minusszal, mint a `head`-nél).
+
+### 6. példa
 Írjuk ki a `/dev` mappa első 10 fájlját vagy directory-ját, akkor 
 is, ha azok rejtettek! Ne jelenjenek meg a `.` és `..` speciális
 jegyzékek!
 
 ```bash
-
+ls -la /dev | tail +4 | head -10
 ```
 
-### 6. példa
+Itt az `ls -la` parancs első három sorát vágtuk le (ami a *total number of disk 
+blocks* sor és a két speciális directory sora), majd a maradékból meghagytuk az első
+10-et.
+
+Ez a példa közelebb áll ahhoz, amire gyakorlatban is használjuk a Bash nyelvet.
+A csv fájlon könnyű megmutatni ezeknek a parancsoknak a működését, de a gyakorlatban
+nem csak fájlok tartalmán, hanem parancsok kimenetén is dolgozunk. Ezek akkor szoktak
+előjönni, mikor valami command line (parancssori) eszközt használunk, ami listáz
+nekünk valamit. Ilyeneket jelenleg nem igazán ismerünk, és nem is fogunk, amíg 
+valami valós vagy egyetemi projektben nem jönnek szembe velünk.
+
+Ettől függetlenül megemlíteném, hogy például a `docker` eszközt. Ez virtuális 
+gépeket kezel, és megfelelő kapcsolókkal kiírja nekünk a jelenleg működő virtuális 
+gépeket, a nevükkel és az azonosítójukkal. Ekkor a `grep` parancs jól jön nekünk,
+hogy a sok virtuális gép közül megtaláljuk a megfelelő nevűt. Ha nagyon command line
+mágusok vagyunk, akkor a név mellé az id-t is kiszedhetjük bash segítségével, és
+akár a gépet is leállíthatjuk. Ez bajlódós keresés, kijelölés, kopizás és beillesztés
+lenne, de ha csinálunk rá magunknak egy scriptet, akkor egyetlen parancsból megoldható.
+
+**A bash egyik nagy előnye abban van, hogy gyakran ismételt command line parancsokat 
+automatizálhatunk.**
+
+### 7. példa
 Írjuk ki a `/dev` mappa utolsó 5 diskjét (most tekintsük
 azokat a fájlokat disknek, amiknek a tulajdonos csoportja disk)!
 
 ```bash
-
+ls -la /dev | grep " disk " | tail -5
 ```
 
-### 7. példa
-Írjuk ki a `people.csv` fájlból csak az emberek neveit!
+### 8. példa
+Írjuk ki a `people.csv` fájlból csak az emberek neveit (a fejléc nélkül)!
 
 ```bash
-
+cat people.csv | tail +2 | cut --field=1 --delimiter=';'
+# Vagy ugyanez rövidebben
+cat people.csv | tail +2 | cut -f 1 -d ';'
 ```
+
+A fönti parancs utolsó eleme magyarázatra szorul, tehát a `cut` parancs.
+Ez egy oszlopokból álló szövegből kiolvassa a megfelelő oszlopokat. Egy 
+oszlop lehet bájt vagy karakter méretű is, de nekünk most *mezőkre* van
+szükségünk. A `--fields=1` kapcsoló megmondja, hogy hányadik mezőt
+szeretnénk kiolvasni a bemeneti szövegből. A mezőket viszont a fájlon belül
+el kell választani valamivel, amit általában *delimiter* néven ismerünk
+a szaknyelvben. A `--delimiter=';'` kapcsoló megmondja, hogy milyen karakterek
+adják az oszlophatárokat a bemeneti szövegben (esetünkben a pontosvessző).
+
+### 9. példa
+Írjuk ki a `people.csv` fájlból csak a telefonszámokat, és azokból is csak az 
+első 20-ast!
+
+```bash
+cat people.csv | grep ";0620" | cut -f 3 -d ';' | head -1
+```
+
+### 10. példa
+Írjuk ki a `people.csv` fájlból az emberek neveit betűrendben (csak a neveket).
+
+```bash
+cat people.csv | tail +2 | cut -f 1 -d ';' | sort
+```
+
+### 11. példa 
+Írjuk ki a `people.csv` fájlból a születési hónapokat (csak a hónapokat)!
+
+```bash
+cat people.csv | cut -f 2 -d ';' | cut -f 2 -d '.'
+```
+
+Ezen a ponton kezdhetjük érezni, hogy elég messzire lehet menni ezeknek
+a parancsoknak a kombinálásával. Sok parancs van, saját kapcsolókkal rendelkeznek,
+és az eddigiekhez hasonlóan működnek. További parancsok megismerése és bonyolítás 
+helyett térjünk át a reguláris kifejezésekre, amelyek szintén hasznosak lesznek
+nekünk!
+
+## Reguláris kifejezések
+Az egyetemen egyszer a következőt mondta nekem az egyik tanár: "Az informatikában két
+nehéz dolog van. A cache-lés és a reguláris kifejezések." Azzal nem értek egyet, 
+hogy csak ezek nehezek, de ezek biztosan.
+
+A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
+kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
+egy másik szövegben. Egy rövid összefoglalót bemutatok ebben a jegyzetben, de ennél
+sokkal bőségesebb eszközről van szó, és az [internet](https://www.regular-expressions.info/)
+rengeteg információt rejt vele kapcsolatban.
+
+Továbbra is a `people.csv` fájl tartalmán fogunk gyakorolni, de javaslom, hogy most az
+egyszer hagyjuk itt egy időre a terminált, mert csak véget nem érő szenvedést fog okozni
+nekünk.
+
+Egy utolsó dologra azonban még rávilágítanék a Bash parancsokkal kapcsolatban:
+láttuk, hogy az utóbbi órán vegyesen használtam a kétféle idézőjelet, az egyszerest
+(`'`) és a kétszerest (`"`). Ennek gyakorlati jelentősége is lesz innentől, ugyanis az
+egyszeres idézőjel **csak szöveget** tartalmaz, míg a kétszeres **tartalmazhat értelmezendő
+változókat**. Ezt a jövő órán bővebben látni fogjuk, egyelőre azonban elégedjünk meg
+azzal, hogy ha nem akarunk magunknak óriási fejfájást, akkor **a reguláris kifejezéseket
+egyszeres idézőjelek közé írjuk**!
+
+A 
 
 ### 14. példa
 
 - Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
 - Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
-- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
-- Az első 3 sort, a fejléc nélkül.
 
-
-### Reguláris kifejezések
-A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
-kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
-egy másik szövegben. Egy rövid összefoglaló található a föntebb megjelölt forrásokban, de
-a legbőségesebb tudástár ilyen téren az [internet](https://www.regular-expressions.info/).
 
 
 Ezen az órán példakódok és utánuk feladatok lesznek. A példakódok a feladat megoldásában
