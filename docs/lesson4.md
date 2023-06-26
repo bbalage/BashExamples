@@ -197,29 +197,100 @@ helyett térjünk át a reguláris kifejezésekre, amelyek szintén hasznosak le
 nekünk!
 
 ## Reguláris kifejezések
-Az egyetemen egyszer a következőt mondta nekem az egyik tanár: "Az informatikában két
-nehéz dolog van. A cache-lés és a reguláris kifejezések." Azzal nem értek egyet, 
-hogy csak ezek nehezek, de ezek biztosan.
+Az egyetemen egyszer a következőt mondta nekem az egyik tanár: "Az informatikában a két
+legnehezebb dolog a caching és a reguláris kifejezések."
 
-A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
-kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
+A reguláris kifejezéseket a *text matching* feladatához használják. Magyarul: A reguláris 
+kifejezésekkel megfogalmazható, hogy milyen szöveget szeretnénk megtalálni
 egy másik szövegben. Egy rövid összefoglalót bemutatok ebben a jegyzetben, de ennél
-sokkal bőségesebb eszközről van szó, és az [internet](https://www.regular-expressions.info/)
-rengeteg információt rejt vele kapcsolatban.
+sokkal bőségesebb a téma, és az [internet](https://www.regular-expressions.info/)
+rengeteg információt tartalmaz vele kapcsolatban.
 
 Továbbra is a `people.csv` fájl tartalmán fogunk gyakorolni, de javaslom, hogy most az
 egyszer hagyjuk itt egy időre a terminált, mert csak véget nem érő szenvedést fog okozni
 nekünk.
 
 Egy utolsó dologra azonban még rávilágítanék a Bash parancsokkal kapcsolatban:
-láttuk, hogy az utóbbi órán vegyesen használtam a kétféle idézőjelet, az egyszerest
+láttuk, hogy az órán vegyesen használtam a kétféle idézőjelet, az egyszerest
 (`'`) és a kétszerest (`"`). Ennek gyakorlati jelentősége is lesz innentől, ugyanis az
 egyszeres idézőjel **csak szöveget** tartalmaz, míg a kétszeres **tartalmazhat értelmezendő
 változókat**. Ezt a jövő órán bővebben látni fogjuk, egyelőre azonban elégedjünk meg
 azzal, hogy ha nem akarunk magunknak óriási fejfájást, akkor **a reguláris kifejezéseket
 egyszeres idézőjelek közé írjuk**!
 
-A 
+Adjunk új tartalmat a `people.csv` fájlnak, hogy bonyolultabb legyen a feladat, és indokolt
+legyen a reguláris kifejezések használata! Az új tartalom:
+
+```
+Name;Birthdate;Phone;Email;Skill
+Robert Bob;1997.09.12.;06201975555;bobbob@gmail.com;IT
+Zsuber Driver;1988.10.11.;06304445555;Driving
+Hatori Hanso;1966.01.11.;06301234555;Smithing
+Rinaldo Orson;2001.05.24.;06709330000;IT,Weight lifting
+Travis Camel;1970.10.01.;06301717171;Horses
+Dagobert McChips;1956.08.31.;06700001111;Cooking
+Bumfolt Rupor;1967.09.11.;06201112233;Marketing
+Mad Marx;1965.09.11.;06301442233;Motorcycle Riding
+Borland Ci Rattleneck;1980.11.02;+36304225555;Bottleneck Construction
+Baileys Margareti;1999.12.09;06209876543;Drinking,Catering
+Larry Lipstick;1988.07.22;+36206547382;Hairstyling
+Inigo Montoya;1977.04.11;+36706568282;Swordfighting
+```
+
+A https://regex101.com/ weboldalon van lehetőség interaktívan és viszonylag vizuálisan 
+kipróbálni a reguláris kifejezéseket. Az alábbi screenshot illusztrálja, hogy mit kell 
+látnunk a weboldalon. Másoljuk be a `people.csv` tartalmát oda, ahol a képen is látható
+(a legnagyobb textboxba középen).
+
+![regex](img/regex_screenshot.png)
+
+A jobb alsó sarokban látható pár rövid emlékeztető, hogy mik a leggyakoribb reguláris 
+kifejezések. Néhányat felsorolok itt, aztán példákon keresztül nézzük meg őket!
+
+- A `.` bármely 1 db karakterre illeszkedik.
+- A `?` karakter megmondja, hogy az előző karakter 1 vagy 0 alkalommal fordulhat elő
+(tehát `blabla?` kifejezés illeszkedik `blabla` vagy `blabl` szövegekre).
+- A `*` karakter megmondja, hogy az előző karakter akárhányszor előfordulhat, akár 0-szor
+is (tehát `blabla*` kifejezés illeszkedik `blabla`, `blablaaaaaaaa` vagy `blabl` szövegekre
+is).
+- A `+` jel az előző karakter 1 vagy többszöri ismétlődését jelenti (tehát `blabla+`
+kifejezés illeszkedik `blabla` vagy `blablaaaaa` szövegekre is, de **nem** illeszkedik 
+`blabl` szövegre).
+- A `[]` szögletes zárójeleken belül megadott karakterekre (például `[abc]`) vagy 
+karakterintervallumokra (például `[a-z]`) illeszkedik, de csak egyre.
+- A `[^]` szögletes zárójeleken belül megadott karakterekre **nem** illeszkedik
+(az előző negálása), csak bármelyik másik egyetlen karakterre.
+- A `{,}` kapcsos zárójeleken belül számszerűen megadható, hogy az előző karakterekből
+mennyi forduljon elő. Például `{2,4}` azt jelenti, hogy minimum 2, de maximum 4 karakterre 
+fog illeszkedni. `{N,}` jel esetén N vagy több karakterre illeszkedik. `{N}` esetén 
+pontosan N karakterre illeszkedik. Megjegyzendő, hogy a `?`, `*`, `+` karakterek 
+megadhatók kapcsos zárójel intervallumokkal is, a következőképpen: `{0,1}` = `?`, `{0,}` = `*`,
+`{1,}` = `+`.
+- A `^` karakter a sor elejére illeszkedik.
+- A `$` jel a sor végére illeszkedik.
+
+Ezek a leggyakoribb használt reguláris kifejezés építőelemek. Ebben a kurzusban nem lesz másra
+szükség.
+
+A reguláris kifejezések a `grep` paranccsal fogjuk használni. Ahhoz, hogy a `grep` parancs 
+reguláris kifejezéseket értelmezzen, meg kell neki adni az `-E` kapcsolót (mint `Expression`),
+majd a reguláris kifejezést javasoltan egyszeres idézőjelek között. Mielőtt beadjuk a
+`grep` parancsnak a kifejezést, győződjünk meg róla a fönti weboldalon, hogy helyesen adtuk 
+meg a kifejezésünket!
+
+### 12. példa
+Írjuk ki a `people.csv` fájlból azokat az embereket, akiknek R-rel kezdődik a keresztneve!
+
+```bash
+cat people.csv | grep -E '^R'
+```
+
+### 13. példa
+Írjuk ki a `people.csv` fájlból azokat az embereket, akiknek R-rel kezdődik a keresztneve!
+
+```bash
+cat people.csv | grep -E '^[a-zA-Z]+ R'
+```
 
 ### 14. példa
 
