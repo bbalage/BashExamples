@@ -1,4 +1,4 @@
-# 1. Kérdések
+# 3. Kérdések
 Ellenőrző kérdések a harmadik gyakorlathoz.
 
 ### 1. kérdés
