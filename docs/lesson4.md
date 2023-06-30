@@ -200,11 +200,23 @@ nekünk!
 Az egyetemen egyszer a következőt mondta nekem az egyik tanár: "Az informatikában a két
 legnehezebb dolog a caching és a reguláris kifejezések."
 
-A reguláris kifejezéseket a *text matching* feladatához használják. Magyarul: A reguláris 
-kifejezésekkel megfogalmazható, hogy milyen szöveget szeretnénk megtalálni
-egy másik szövegben. Egy rövid összefoglalót bemutatok ebben a jegyzetben, de ennél
+A reguláris kifejezéseket a *text matching* feladatához használják. **Egy reguláris
+kifejezés egy minta, aminek ismeretében egy "reguláris kifejezés motor" 
+egyértelműen meg tudja állapítani, hogy egy adott szövegre illeszkedik-e a kifejezés.**
+Példa alapján érthetőbb: az alábbiak reguláris kifejezések, mellettük pedig azok, amikre
+illeszkednek:
+
+- `[0-9]{3}`: minden három hosszúságú számsorra illeszkedik.
+- `^[A-Z][a-z]+`: minden nagybetűvel kezdődő szóra illeszkedik.
+
+A továbbiakban megismerjük néhány építőelemét a reguláris kifejezéseknek.
+Egy rövid összefoglalót mutatok be ebben a jegyzetben, de ennél
 sokkal bőségesebb a téma, és az [internet](https://www.regular-expressions.info/)
-rengeteg információt tartalmaz vele kapcsolatban.
+rengeteg információt tartalmaz vele kapcsolatban. A reguláris kifejezéseket széles körben
+használják, például egy weboldal formjának validálásakor (megmondják vele, hogy a 
+szöveges mező milyen felépítésű szöveget tartalmazhat), vagy épp keresésekkor 
+(megmondják vele, hogy milyen felépítésű szöveget keresnek). Hasznos, de bonyolult téma,
+és nem fogunk nagyon elmélyülni benne.
 
 Továbbra is a `people.csv` fájl tartalmán fogunk gyakorolni, de javaslom, hogy most az
 egyszer hagyjuk itt egy időre a terminált, mert csak véget nem érő szenvedést fog okozni
@@ -215,8 +227,7 @@ láttuk, hogy az órán vegyesen használtam a kétféle idézőjelet, az egysze
 (`'`) és a kétszerest (`"`). Ennek gyakorlati jelentősége is lesz innentől, ugyanis az
 egyszeres idézőjel **csak szöveget** tartalmaz, míg a kétszeres **tartalmazhat értelmezendő
 változókat**. Ezt a jövő órán bővebben látni fogjuk, egyelőre azonban elégedjünk meg
-azzal, hogy ha nem akarunk magunknak óriási fejfájást, akkor **a reguláris kifejezéseket
-egyszeres idézőjelek közé írjuk**!
+azzal, hogy **a reguláris kifejezéseket érdemes egyszeres idézőjelek közé írni**!
 
 Adjunk új tartalmat a `people.csv` fájlnak, hogy bonyolultabb legyen a feladat, és indokolt
 legyen a reguláris kifejezések használata! Az új tartalom:
@@ -244,7 +255,10 @@ látnunk a weboldalon. Másoljuk be a `people.csv` tartalmát oda, ahol a képen
 
 ![regex](img/regex_screenshot.png)
 
-A jobb alsó sarokban látható pár rövid emlékeztető, hogy mik a leggyakoribb reguláris 
+A jobb jobb felső sarokban angol nyelvű magyarázatok láthatók a beírt kifejezések 
+jelentésére. Középen felülre tudunk beírni reguláris kifejezéseket, amikkel keresünk
+a szövegben.
+A jobb alsó sarokban található pár rövid emlékeztető, hogy mik a leggyakoribb reguláris 
 kifejezések. Néhányat felsorolok itt, aztán példákon keresztül nézzük meg őket!
 
 - A `.` bármely 1 db karakterre illeszkedik.
@@ -331,13 +345,14 @@ karakterre is (`?` `+` `{` `}` `\` stb.)
 
 ## Megjegyzések
 A korábbiakban a `cat` parancsot használtuk egy fájl kilistázására. Ez olyan szempontból
-jó volt, hogy megtanultuk a parancs létezését. A fönti példákban viszont valójában elhagyható.
+jó volt, hogy megtanultuk a parancsot és a csővezetékelést is szemléltette. A fönti példákban
+viszont valójában elhagyható.
 A `grep` parancsnak utolsó paraméterébe beírható a fájl neve, amiben keresni akarunk.
 Ugyanez igaz a többi megtekintett szűrő parancsra is. Például valid a következő:
 
 ```bash
 head -1 people.csv
-```201975555
+```
 
 Ezzel a módszerrel viszont nem lehet például az `ls` parancs tartalmán dolgozni
 (bár a későbbiekben fogunk ciklust írni rá, hogy végigiteráljunk egy directory tartalmán).

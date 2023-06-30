@@ -61,4 +61,22 @@
 14. 6
 
 ### 4. kérdéssor
-1. 
+1. c
+2. a
+3. semmit, hiba (-E kapcsoló lemaradt)
+4. semmit, hiba ([a-z] után szükséges egy számosság megjelölő).
+5. Aragorn,dog,5\
+Aragog,cat,2
+6. Raptor,cat,10\
+Ducatti,parrot,2\
+Garfield,cat,4\
+Aragog,cat,2
+7. Raptor,cat,10\
+Garfield,cat,4\
+Aragog,cat,2
+8. Aragog\
+Garfield\
+Raptor
+9. Species
+10. Thor,dog,12
+11. Nincs válasz, ez egy bónusz.
