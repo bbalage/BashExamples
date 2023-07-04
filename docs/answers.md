@@ -80,3 +80,15 @@ Raptor
 9. Species
 10. Thor,dog,12
 11. Nincs válasz, ez egy bónusz.
+
+### 5. kérdéssor
+1. c
+2. a
+3. x: $x
+4. Szintaxis hiba, ugyanis x számnak lett deklarálva.
+5. x: 0 (furcsa viselkedés, mert nem sikerült számként értelmezni a Ten-t)
+6. x:   (egy space az x értéke)
+7. Hiba az egyszeres zárójel miatt.
+8. -5
+9. b
+10. 31.9
