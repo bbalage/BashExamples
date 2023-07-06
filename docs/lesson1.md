@@ -1,7 +1,6 @@
 # 1. óra
 
 ## Háttérismeretek
----
 
 Számítógépes Architektúrák gyakorlatokon shell scriptek írásával fogunk foglalkozni Unix
 alapú operációs rendszerekben. Mit tekintünk Unix alapú rendszernek, és mik is azok a 
@@ -69,7 +68,6 @@ Legelőször nyissunk egy terminált (Ctrl + Alt + T), amiben bash fut (feltehet
 ez a default). A további feladatokat terminálban fogjuk csinálni.
 
 ## Példák
----
 
 ### 1. példa
 Hozzunk létre egy mappát, amit a gyakorlatok feladataihoz fogunk használni.
