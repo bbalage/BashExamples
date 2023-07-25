@@ -1,183 +1,236 @@
 # 2. óra
 
-## Előzetes ismeretek
-Mire használják a Bash-t:
-- Rendszergazdai feladatok ellátása.
-- A munkánk során gyakran ismétlődő feladatsorozatok kötegelése. (Vagyis, ha én
-minden alkalommal, mikor eljutottam egy pontra a fejlesztésben 1. lefordítom a kódot, 2.
-teszt futtatást végzek, 3. a teszt futtatás eredményét felküldöm egy weboldalra, majd 4.
-egy log fájlban rögzítem a futási időmet, akkor ezt a négy parancsot akár be is írhatom 
-egyetlen Bash fájlba, és innentől mindig csak ezt a fájlt kell "lefuttatnom", hogy ez a 
-4 lépés végrehajtódjon.)
+**Előkészület:** Hozzunk létre egy külön mappát ennek a gyakorlatnak a feladataihoz,
+és lépjünk bele (a mappába)! Hozzunk létre benne tetszőleges text fájlokat.
 
+```bash
+cd szgyak
+mkdir lesson2
+cd lesson2
+touch 1.txt
+touch 2.txt
+```
 
-### Parancsok kombinálása
-Az Unix parancsok azt az elvet követik, hogy egy parancs egy lényegi feladatot hajtson végre, 
-de azt jól. Ennek megfelelően, ha komplexebb feladatot akarunk végrehajtani, akkor 
-valószínűleg nem fogunk olyan parancsot találni, ami megoldja nekünk azt. Helyette össze 
-kell kombinálni meglévő parancsokat valamilyen módon. Erre adnak lehetőséget az alábbi 
-eszközök:
+Ezek után elkezdhetjük az új anyagot!
 
-- `parancs1 && parancs2` -> ha parancs1 sikeresen végrehajtódott, akkor hajtódjon végre
-parancs2 is.
-- `parancs1 || parancs2` -> ha parancs1 elbukott, akkor hajtódjon végre parancs2
-- `parancs1 | parancs2` -> parancs1 kimenetét parancs2 bemenetére irányítja
+## Jogosultságok
+---
 
-Ezeken felül lehet még a parancs outputját valamilyen egyéb "folyamra" (stream) is irányítani.
-Ez akkor hasznos például, ha fájlba szeretnénk írni, vagy csak "kukázni" akarjuk az 
-outputot. A következő "irányításokat" ismerjük meg:
+Az előző órán megtanultuk, hogy hogyan lehet terminálban navigálni a fájlrendszerbe.
+Nem néztük azonban meg, hogy milyen jogosultságok vannak, hogyan lehet ezeket megtekinteni,
+hogyan tárolja őket a Linux, és hogyan tudjuk őket módosítani.
 
-- `parancs > streamname` -> a parancs outputját a `streamname` nevű streamre irányítja.
-Tipikus eset, hogy `streamname` egy fájl; ekkor az output felülírja a fájl tartalmát
-(az eredeti tartalom törlődik).
-- `parancs >> streamname` -> ugyanaz, mint az előző, csak a parancs outputja hozzáfűződik
-a streamhez, nem pedig felülírja azt. Ez fájl esetén a látványos, mikor ez a parancs a 
-fájl végéhez hozzáír további adatok, míg az előző parancs teljesen felülírja a fájl tartalmát.
+A jogosultságok megtekintése meglehetősen egyszerű, és ennek a módját már tanultuk. Adjuk ki
+a következő parancsot a `lesson2` mappában.
 
-Vegyük észre, hogy alapból is egy streamre írunk, a *standard output* streamre (*stdout*, 1-es
-azonosító). Ismert a *standard input* stream is (*stdin*, 0-s azonosító), továbbá a *standard
-error* stream (*stderr*, 2-es azonosító).
+```bash
+ls -l
+```
 
-### nano (terminálos szövegszerkesztő)
-A nano egyike a tömérdek terminálos szövegszerkeztőknek, amik elérhetőek szoktak lenni egy 
-Unix rendszerre (ismertebbek még: emacs, vim). A nano egy olyan szövegszerkesztő, ami
-teljesen a terminálban működik, és nem kell külön ablakot nyitnia, hogy használható legyen.
-Az egér is szinte teljesen haszontalan.
+Eddig nem néztük meg jobban, hogy mit is ír ki pontosan az `ls` parancs az `-l` kapcsolóval
+kombinálva. Az alábbi képen látható egy lehetséges output:
 
-### Script fájlok
-Egy parancsot nem csak a terminálba lehet beírni. Helyette el lehet tárolni 
+![terminal screenshot](img/terminal2_1.png)
 
-### Hasznos parancsok
-Az alábbi [jegyzetben](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak2.pdf) fel
-vannak sorolva hasznos parancsok, kicsit bővebb magyarázatért pedig a
-[következő](https://users.iit.uni-miskolc.hu/~toth130/arch/gyak/Gyak4.pdf) jegyzetet is
-érdemes megtekinteni.
+Ilyenkor a következő oszlopok jelennek meg.
+1. Jogosultságok. Rövidesen tisztázzuk az értelmezését.
+2. Tulajdonos. Általában egyezik azzal a felhasználóval, aki létrehozta a fájlt.
+3. Csoport. Rövidesen erre is kitérünk bővebben.
+4. Méret. Bájtokban megadva látjuk.
+5. Utolsó módosítás ideje.
+6. Név.
 
-### Reguláris kifejezések
-A reguláris kifejezések a *text matching* feladatához gyakran használt eszközök. A reguláris 
-kifejezések egy strukturált megfogalmazása annak, hogy milyen szöveget szeretnénk megtalálni
-egy másik szövegben. Egy rövid összefoglaló található a föntebb megjelölt forrásokban, de
-a legbőségesebb tudástár ilyen téren az [internet](https://www.regular-expressions.info/).
+Térjünk rá ezekből a jogosultságok oszlopra!
+
+### Jogosultságok egyszerű fájlokra
+Unix alapú rendszeren háromféle jogosultságot különböztetünk meg:
+- olvasási (**r**ead),
+- írási (**w**rite),
+- futtatási (e**x**ecute).
+
+A jogosultságokat minden elemnél háromféle felhasználóra értelmezzük. Ezek a felhasználók:
+- a tulajdonos,
+- a tulajdonosi csoportban lévő felhasználók,
+- mindenki más.
+
+Ennek megfelelően egy fájlra 3x3 jog létezik, tehát 9. Tekintsük az alábbi képernyőképet:
+
+![terminal screenshot](img/terminal2_2.png)
+
+A `runnable` nevű fájlt mindenkinek joga van írni, olvasni és futtatni. Ezt jelöli, hogy 
+látható az `rwxrwxrwx` a fájl előtt. Ezzel szemben a két text fájlt csak a tulajdonosnak és 
+a tulajdonosi csoporttagoknak tartozóknak van joguk írni, ellenben mindenkinek joga van olvasni.
+Futtatni senkinek sincs joga a text fájlokat (nem is lenne értelme futtatni egy text fájlt).
+
+Látható, hogy azok a jogok, amik nincsenek megadva '-' karakterrel (kötőjel) vannak jelölve.
+Ami meg van adva, annak a megfelelő karaktere kiírásra kerül. Az első hármas `rwx` csoport a
+tulajdonos jogait jelöli, a második a tulajdonos csoportjában lévőket, a harmadik mindenki mást.
+
+Megjegyzendő, hogy a fájl törléséhez is írási jog kell.
+
+### Jogosultságok számokként
+Ahhoz, hogy meg tudjuk változtatni ezeket a jogosultságokat, először nézzük meg, hogy rendszer
+hogyan reprezentálja őket!
+
+A jogosultságokat az Unix rendszerekben hagyományosan számokkal jelölik. A számok képzése a 
+következő:
+- `r` = 4
+- `w` = 2
+- `x` = 1
+
+A számok láthatóan kettő hatványai (második, első és nulladik hatványa). Ha ezeknek az összegét 
+képezzük, akkor megkapjuk, hogy milyen jogok élnek a fájlra. Például, ha az `1.txt` fálj jogaiból 
+indulunk ki, akkor a tulajdonos jogait a 6-os szám jelöli, mert `r + w` joga van, ami számokkal
+`4 + 2 = 6`. Ezeket a számokat is ismételjük, tehát az adott fájl jogai 664, ugyanis a tulajdonos
+és a csoporttagoknak jogát a hatos szám jelöli, míg a többiekét a 4-es, mert ők csak
+olvashatják a fájlt.
+
+Néhány példa kombináció:
+- 755 = `rwxr-xr-x`: A tulajdonos mindent megtehet a fájllal, de a többiek nem írhatják.
+- 640 = `rw-r-----`: A tulajdonos írhat és olvashat, a csoportba tartozók csak olvashatnak,
+mindenki más nem tehet semmit a fájllal.
+- 711 = `rwx--x--x`: A tulajdonos mindent megtehet, de mindenki egyéb csak futtathatja a fájlt.
+
+A tulajdonosnak nem kell több jogosultsággal rendelkeznie, mint mindenki másnak, de így logikus.
+
+Most, hogy tudjuk a jelöléseket, nézzük a változtatásokat!
+
+### Jogosultságok megváltoztatása
+A jogosultságok megváltoztatására a `chmod` parancsot használhatjuk. A parancs első paramétere 
+az új jogosultságok számokkal, a második a fájl, amire meg akarjuk változtatni a jogosultságokat.
+Például:
+
+```bash
+chmod 640 1.txt
+# ezután nézzük meg:
+ls -l
+```
+
+A fönti parancs után az 1.txt jogosultságai a következők lesznek: `rw-r-----`. Természetesen a 
+parancsnak megadható bármilyen háromjegyű szám, amelyben nem szerepel 8-as vagy 9-es számjegy, de 
+persze némelyik logikailag nincs sok értelme. Például miért adnánk meg 507-et? Ezzel a fájllal 
+bárki bármit tehet, de a tulajdonosa nem írhatja, és a csoport is teljesen le van tiltva
+róla. Ha átrendezzük, akkor már több értelme van: 750. Ettől függetlenül az 507 is megadható,
+nem tiltja semmi.
+
+A chmod parancsnak adhatunk a következőképpen is paramétert:
+
+```bash
+touch script.sh
+# Edit the script
+chmod +x script.sh
+```
+
+A fönti parancsoknál létrehoztunk egy `script.sh` nevű fájlt. Alapértelmezetten a `script.sh`
+fájlon sincs futtatási jog, viszont mi később tudni fogjuk, hogy az `.sh` kiterjesztésű fájlokban
+shell scripteket szoktunk tárolni, amelyeket esélyesen futtatni szeretnénk. Ehhez előbb írnunk is 
+kell a fájlba egy programot (amelyet a fönti példában nem tettünk meg, csak kommentben), viszont 
+jogunk attól még nincs a futtatásra. A `chmod +x script.sh` parancs mindenkinek megadja a futtatási
+jogot a fájlhoz. Ha ennél finomabban akarjuk megadni, akkor vissza kell térnünk a számos jelöléshez.
+
+### Mappa jogosultságok
+Mappák esetében is értelmezettek a read-write-execute jogok, de mást jelentenek, mint fájlok esetén.
+- **read:** Aki rendelkezik olvasási joggal, az listázhatja a mappa bejegyzéseit (a benne lévő fájlokat
+és mappákat).
+- **write:** Aki rendelkezik ezzel a joggal, az módosíthatja a mappa tartalmát.
+- **execute:** Aki rendelkezik ezzel a joggal, az beléphet a mappába. Megjegyzendő, hogy ha nem léphetünk
+be a mappába, akkor nem tudunk módosítani benne és nem tudjuk megfelelően listázni a bejegyzéseit sem.
+Tehát a read és write jog az execute jog nélkül nem sok hasznot jelent nekünk.
+
+## Csoportok
+Minden fájlnak van egy tulajdonosi csoportja, amelyre a fönt olvasottaknak megfelelően kitüntetett
+jogosultságok vonatkozhatnak. Az `ls -l` parancs kilistázza a fájlokat a tulajdonossal és a
+csoporttal együtt.
+
+A következő módon megnézhetjük, hogy az adott user melyik csoportokba tartozik:
+
+```bash
+groups username
+# a username nevű felhasználó csoportjai kiírásra kerülnek
+```
+
+Minden fájlnak egy tulajdonosi csoportja van, de egy felhasználó több felhasználói csoportban lehet. 
+Az Unixban vannak parancsok különböző csoportkezelési műveletekre. Mivel ez a tárgy nem az *Unix Rendszergazda*
+tárgy, ezért ezekbe a parancsokba nem fogunk itt mélyebben belemenni. Az alábbi parancsokat felsoroljuk, de
+legfeljebb minimális szükségünk lesz rájuk:
+- `useradd` új felhasználót ad a rendszerhez.
+- `groupadd` új csoportot ad a rendszerhez.
+- `usermod -a -G groupname username` egy meglévő usert (username) egy meglévő csoporthoz (groupname) hozzáad.
+
+A föntiek inkább rendszergazdai feladatok, de ritkán személyes gépen is hasznosak lehetnek kényelmi okokból.
+
+Lényegesen gyakrabban kell használni a `chown` parancsot, amely egy fájl tulajdonjogának megváltoztatására
+szolgál. Egyszerre lehet használni a tulajdonos felhasználó és a tulajdonos csoport megváltoztatására.
+Ha csak a tulajdonost akarjuk megváltoztatni, akkor a következőképpen tehetjük:
+
+```bash
+chown newusername filename
+```
+
+Amennyiben a tulajdonosi csoportot is meg akarjuk változtatni, akkor az alábbi módon adjuk ki a parancsot:
+
+```bash
+chown username:groupname filename
+```
+
+Megjegyzendő, hogy a `chown` parancshoz szükséges a rendszergazdai jogosultság, így ezt
+nem tudjuk kipróbálni, csak otthoni gépen, ahol rendelkezünk a rendszergazda jelszavával. 
+
+## Példák
+Az alábbi példán keresztül gyakoroljuk a jogosultságok beállítását!
+
+### 1. példa
+
+Hozzunk létre a `lesson2` mappán belül egy `example` mappát! Ezen a mappán belül hozzuk 
+létre a megfelelő fájlokat a megfelelő jogosultságokkal,
+hogy az `ls -l` parancs a következő kimenetet generálja (a tulajdonosokkal ne törődjünk,
+mérettel, elérési, módosítási idővel ne törődjünk): 
+
+![terminal screenshot](img/terminal2_3.png)
+
+A következő kóddal mindez kivitelezhető:
+
+```bash
+# Create folder and cd into it
+mkdir example
+cd example
+
+# Create files and directories
+touch 1.txt
+touch 2.txt
+touch asd.c
+touch other_script.sh
+touch runnable
+touch script.sh
+mkdir .hidden_directory
+
+# Set the permissions
+chmod 644 1.txt
+chmod 666 2.txt
+chmod 640 asd.c
+chmod 770 .hidden_directory
+chmod 774 other_script.sh
+chmod 777 runnable
+chmod 775 script.sh
+```
+
+## Összefoglalás
+Az alábbi parancsokat tanultuk (csak az elsőt, a `chmod`-ot használtuk érdemben):
+- `chmod` módosítja a fájlokra adott jogosultságokat
+- `chown` módosítja egy fájl tulajdonosát (rendszergazdai jog kell a kiadásához)
+- `groups` kiírja egy felhasználó mely csoportokba tartozik
+- `useradd` új felhasználót ad a rendszerhez
+- `groupadd` új csoportot ad a rendszerhez
 
 ## Feladatok
-Az alábbi feladatokat hajtsuk végre a jegyzetekben található parancsokkal, regulári
-kifejezésekkel, vagy ezeknek a kombinálásával!
-
-**Lépjünk be egy az órára létrehozott jegyzékünkbe (lesson2), és a feladatokat hajtsuk
-végre ott!**
-
-A feladatok megoldásai megtalálhatóak az
-[alábbi mappában](https://github.com/bbalage/BashExamples/tree/master/bash/lesson2), viszont
-a megoldókulcsot igénylő
-feladatokhoz eleve odaírtam a megoldást is. Amelyiknél nincs megoldás, ott legalább a 
-próbálkozás és a jegyzetekben való utánaolvasás szükséges!
+---
+Önálló gyakorló feladatok.
 
 ### 1. feladat
-Próbáljunk meg belépni egy `tmp` nevű jegyzékbe, és ha nem sikerül, akkor hozzuk létre azt, és 
-lépjünk bele. Mindezt oldjuk meg egyetlen sor parancsban.
+Hozzon létre egy mappát a `szgyak/lesson2` mappában `task` néven! A mappában belül
+hozza létre a megfelelő mappákat és fájlokat a megfelelő jogosultságokkal, hogy a 
+mappán belül kiadott `ls -la` parancs az alábbi screenshoton látható eredményt
+hozza! (ignorálja a fájloknak és mappáknak a jogosultsághoz és névhez nem kötődő
+tulajdonságait, tehát módosítási dátumot, tulajdonost, stb.)
 
-**Megoldás:**
-
-```bash
-cd tmp || mkdir tmp && cd tmp
-```
-
-### 2. feladat
-Az előzőleg létrehozott `tmp` mappában készítsünk egy hello.txt nevű fájlt!
-A fájlba írjunk bele az `echo` parancs segítségével (elismétli, amit írsz neki),
-először annyit, hogy "hello world!", másodszor annyit, hogy "goodbye world!".
-
-**Megoldás:**
-```bash
-touch hello.txt
-echo "hello world!" > hello.txt
-echo "goodbye world!" > hello.txt # why doesn't it work? read upwards :)
-cat hello.txt # this command will print the content of hello.txt to the terminal
-```
-
-### 3. feladat
-
-Készítsünk nano segítségével egy csv fájlt! A csv fájl csak egy text fájl, amiben strukturálva
-vannak az adatok, nagyjából úgy, mint egy táblázatban. Például:
-```
-Name;Birthdate;Phone;Skill
-Robert Bob;1997.09.12.;06201975555;IT
-Zsuber Driver;1988.10.11.;06304445555;Driving
-Hatori Hanso;1966.01.11.;06301234555;Smithing
-Rinaldo Orson;2001.05.24.;06709330000;IT
-Travis Camel;1970.10.01.;06301717171;Horses
-Dagobert McChips;1956.08.31.;06700001111;Cooking
-Bumfolt Rupor;1967.09.11.;06201112233;Marketing
-```
-
-A fönti tartalommal hozza létre a people.csv fájlt!
-
-Írassuk ki a következőket a terminálba (egyetlen sornyi paranccsal):
-- Azokat a sorokat, ahol a személy ért az IT-hez.
-- Azokat a sorokat, ahol a személy keresztneve R-rel kezdődik.
-- Azokat a sorokat, ahol a személy vezetékneve R-rel kezdődik.
-- Azokat a sorokat, ahol a telefonszám 30-as.
-- Azokat a sorokat, ahol a *Skill* megnevezése -*ing* végződésű.
-- Azokat a sorokat, ahol a személy 2000-ben vagy utána született.
-- Az első 3 sort, a fejléccel együtt (a fejléc a Name;Birthdate;Phone;Skill sor).
-- Az első 3 sort, a fejléc nélkül.
-
-```bash
-cat people.csv | grep "IT" # the first one... do the rest!
-```
-
-### 4. feladat
-Írjunk egy scriptet, amely leszed a következő url-ről egy text file-t, majd kiírja belőle 
-a valid email címeket egy `emails.txt` fájlba, aztán törli az eredetileg letöltött fájlt.
-
-Url: https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/file1.txt
-
-Az emails.txt fájl tartalma a következő kell legyen:
-```
-Jupici@gmail.com
-howard.wayland@citromail.hu
-ubuntu@gmail.com
-bestrapper@gmail.com
-ET@gmail.com
-harapos@gmail.com
-bob@gmail.com
-```
-
-**Help:** érdemes ránézni a `wget`, `cat`, `grep` és `rm` parancsokra.
-
-### 5. feladat
-Készítsünk egy scriptet, ami lefordít, majd lefuttat egy C programot, majd az eredményét és 
-a futási idejét egy fájlba írja, majd az eredményt felmásolja jerry-re.
-
-A program rendelkezzen a következő kóddal:
-
-```c
-// This should be in hello.c
-#include "stdio.h"
-
-int main()
-{
-    printf("Hello World!\n");
-}
-```
-
-A fordításhoz használjuk a `gcc` programot! A következőképpen:
-
-```bash
-gcc hello.c -o hello
-```
-
-A lefordított program ekkor a `hello` fájlba kerül. A futtatást a következőképpen vitelezhetjük
-ki:
-
-```bash
-./hello
-```
-
-Az idő mérésére alkalmas a `time` program. A jerry-re való felmásolást az `scp` programmal meg
-tudjuk oldani.
-
-**Önálló feladat:** Az internet segítségével találjuk meg, hogy a `time` program és a `hello`
-program outputját hogyan tudjuk egy fájlba irányítani! Trükkös, mert a `time` nem a standard 
-outputra ír, hanem a standard error streamre. Ezután keressük meg, hogy az `scp` programot 
-hogyan tudjuk használni!
+![terminal screenshot](img/terminal2_4.png)
