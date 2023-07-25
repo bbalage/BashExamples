@@ -183,7 +183,151 @@ case $ptype in
 esac
 ```
 
+A `[[]]` szerkezetben hasonlóan tudjuk használni az ÉS, VAGY, NEM logikai kifejezéseket, ahogy C-ben.
+Például a következő ellenőrzi, hogy x 10 és 20 között legyen:
+
+```bash
+if [[ $x -gt 10 && $x -lt 20 ]]; then 
+  echo "OK"
+fi
+```
+
+Vagy hogy NE legyen szám:
+
+```bash
+reg_ex='^[0-9]+$'
+# A felkiáltójel a következő kifejezés tagadása
+if [[ ! $x =~ $reg_ex ]]; then
+  echo "Not a number."
+fi
+```
+
 Most már nagyjából mindent tudunk, amire a feltételes kódjainkhoz szükség lesz.
 Lássunk példákat!
 
 ## Példák
+A következő példákban gyakoriak lesznek az input ellenőrzések. Amennyiben egy input nem megfelelő,
+hibával lépünk ki a programból. A hiba jelzésére a program visszatérési értéke alkalmas. Ha a 
+visszatérési érték nem nulla, az hibát jelent. Idő előtt kilépni az `exit` paranccsal tudunk.
+
+Például:
+
+```bash
+#!/bin/bash
+
+if [ 1 -ne 1 ]; # very unexpected error
+  exit 1 
+fi
+```
+
+Ha nem írunk számot az `exit` után (vagy nem írunk `exit` parancsot a programba), akkor a visszatérési
+érték automatikusan nulla lesz (még akkor is, ha valamelyik parancs hibát adott a programon belül).
+Például a következő program nem tér vissza hibával, bár a `grep` maga hibára fut.
+
+```bash
+#!/bin/bash
+
+grep "hello" nonexistent_file_blabla.txt
+```
+
+### 1. példa
+Készítsünk egy shell scriptet, ami bemenetként egy téglalap két oldalának hosszát várja, és kiírja 
+a síkidom területét! Valósítsuk meg csak egész számokkal! (Természetesen végezzünk ellenőrzéseket az
+inputon!)
+
+```bash
+#!/bin/bash
+
+if [[ $# -ne 2 ]]; then
+  echo "Two inputs are needed, $# is given." 1>&2
+  exit 1
+fi
+
+reg_ex='^[0-9]+$'
+if [[ ! $1 =~ $reg_ex || ! $2 =~ $reg_ex ]]; then
+  echo "Both inputs must be positive integer numbers!" 1>&2
+  exit 1
+fi
+
+echo "Area is: $(($1 * $2))"
+```
+
+A `1>&2` kifejezés az `echo` után átirányítja a standard output streamet a standard error streamre.
+
+Az első `if` kifejezés ellenőrzi, hogy pontosan két inputot adtunk-e meg.
+
+A második `if` kifejezés biztosítja, hogy ha az első vagy a második kifejezés nem felel meg az egész 
+számokra vonatkozó reguláris kifejezésünknek, akkor hibaüzenettel lépjünk ki.
+
+### 2. példa
+
+Készítsünk egy shell scriptet, ami bekéri a felhasználó születési dátumát `yyyy.mm.dd` formátumban!
+Ellenőrizzük le a dátum helyességét, és írjuk ki, hogy a felhasználó hány éves!
+
+Használjuk a `date` parancsot a jelenlegi dátum lekérésére!
+
+```bash
+#!/bin/bash
+
+read -p "Please, type your birthdate in yyyy.mm.dd format! " bdate
+
+reg_ex='^[0-9]{4}\.[0-9]{2}\.[0-9]{2}$'
+if [[ ! $bdate =~ $reg_ex ]]; then
+  echo "Date is not in proper format!" 1>&2
+  exit 1
+fi
+
+byear=$(echo $bdate | cut -f 1 -d '.')
+bmonth=$(echo $bdate | cut -f 2 -d '.')
+bday=$(echo $bdate | cut -f 3 -d '.')
+
+# A date parancs le tudja ellenőrizni egy szintaktikailag helyes
+# dátum validitását. Például a hónap nem-e nagyobb 12-nél, stb.
+date -d "$byear-$bmonth-$bday" > /dev/null || exit 1
+
+bseconds=$(date -d "$byear-$bmonth-$bday" +%s)
+cseconds=$(date +%s)
+
+age_in_seconds=$((cseconds - bseconds))
+
+if [[ $age_in_seconds -lt 0 ]]; then
+  echo "You haven't been born yet!" 1>&2
+  exit 1
+fi
+
+echo $(( age_in_seconds / 60 / 60 / 24 / 365 ))
+```
+
+### x. példa
+Az MVK Zrt. elérhetővé tesz egy szabványos GTFS adatbázist a fejlesztők számára, hogy a menetrendi 
+adatokat a saját applikációikba tudják integrálni. Írjunk egy shell script fájlt, amely letölti ezt 
+az adatbázist, és kilistázza belőle azokat az utakat, amelyek a Centrumból indulnak, vagy a Centrumba
+mennek.
+
+**Parancsok:**
+wget, unzip (kitömörítésre), cat, grep
+
+**Szükséges ellenőrzések:**
+- Ha a letöltendő fájl már egyszer le volt töltve, akkor az újbóli letöltés előtt töröljük az előző 
+verziót!
+- Ha egy mappába már korábban ki lett tömörítve a letöltött állomány, akkor az újbóli kitömörítés
+előtt szabaduljunk meg ennek a mappának a tartalmától!
+
+**Megjegyzés:** A tanszéki gépekről *certificate* problémák miatt a korábbiakban nem volt letölthető
+az adatbázis, ezért egy *github* repository-ba is feltettem. A hozzá tartozó parancs ki van
+kommentezve. Hibaüzenet esetén cseréljük le a jelenlegi url-t a kikommentezettre.
+
+```bash
+if [ -e gtfs.zip ]; then
+    rm gtfs.zip
+fi
+
+if [ -d gtfs ]; then
+    rm -r gtfs
+fi
+
+wget "https://gtfsapi.mvkzrt.hu/gtfs/gtfs.zip"
+# wget https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/gtfs.zip
+unzip gtfs.zip -d gtfs
+cat gtfs/routes.txt | grep "Centrum"
+```
