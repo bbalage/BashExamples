@@ -163,7 +163,7 @@ else
 fi
 ```
 
-Látható, hogy az szavak `else-if` összevonódtak `elif` szóba.
+Látható, hogy az `else-if` szavak összevonódtak az `elif` szóba.
 
 A C-ből ismert `switch-case` szerkezet is megtalálható itt, a következő szintaxissal:
 
@@ -260,6 +260,76 @@ A második `if` kifejezés biztosítja, hogy ha az első vagy a második kifejez
 számokra vonatkozó reguláris kifejezésünknek, akkor hibaüzenettel lépjünk ki.
 
 ### 2. példa
+Legyen adott egy fájl `name_id_pairs.txt` néven, ami id és név párosokat tartalmaz.
+Készítsünk egy shell scriptet, ami bekéri a nevet, és kiírja a hozzá tartozó id-t,
+vagy hibát ad, ha a név nem található a fájlban.
+
+A fájl tartalma legyen a következő:
+
+```
+zsuzso:aef7421b
+alfonz:eef4555b
+barnabas:98726371
+tom:aaaabbbb
+jerry:cccdddee
+hasselhoff:cafebabe
+```
+
+A következő script megvalósítja a feladatot:
+
+```bash
+#!/bin/bash
+
+read -p "Please, type the name you are searching for! " name
+
+row=$(cat name_id_pairs.txt | grep $name)
+
+if [[ -z $row ]]; then
+  echo "No name like that." 1>&2
+  exit 1
+fi
+
+id=$(echo $row | cut -d ':' -f 2)
+echo $id
+```
+
+### 3. példa
+Az MVK Zrt. elérhetővé tesz egy szabványos GTFS adatbázist a fejlesztők számára, hogy a menetrendi 
+adatokat a saját applikációikba tudják integrálni. Írjunk egy shell script fájlt, amely letölti ezt 
+az adatbázist, és kilistázza belőle azokat az utakat, amelyek a Centrumból indulnak, vagy a Centrumba
+mennek!
+
+**Parancsok:**
+wget, unzip (kitömörítésre), cat, grep
+
+**Szükséges ellenőrzések:**
+- Ha a letöltendő fájl már egyszer le volt töltve, akkor az újbóli letöltés előtt töröljük az előző 
+verziót!
+- Ha egy mappába már korábban ki lett tömörítve a letöltött állomány, akkor az újbóli kitömörítés
+előtt szabaduljunk meg ennek a mappának a tartalmától!
+
+**Megjegyzés:** A tanszéki gépekről *certificate* problémák miatt a korábbiakban nem volt letölthető
+az adatbázis, ezért egy *github* repository-ba is feltettem. A hozzá tartozó parancs ki van
+kommentezve. Hibaüzenet esetén cseréljük le a jelenlegi url-t a kikommentezettre.
+
+```bash
+#!/bin/bash
+
+if [ -e gtfs.zip ]; then
+    rm gtfs.zip
+fi
+
+if [ -d gtfs ]; then
+    rm -r gtfs
+fi
+
+wget "https://gtfsapi.mvkzrt.hu/gtfs/gtfs.zip"
+# wget https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/gtfs.zip
+unzip gtfs.zip -d gtfs # próbáljuk ki -d kapcsoló nélkül is...
+cat gtfs/routes.txt | grep "Centrum"
+```
+
+### 4. példa
 
 Készítsünk egy shell scriptet, ami bekéri a felhasználó születési dátumát `yyyy.mm.dd` formátumban!
 Ellenőrizzük le a dátum helyességét, és írjuk ki, hogy a felhasználó hány éves!
@@ -298,36 +368,18 @@ fi
 echo $(( age_in_seconds / 60 / 60 / 24 / 365 ))
 ```
 
-### x. példa
-Az MVK Zrt. elérhetővé tesz egy szabványos GTFS adatbázist a fejlesztők számára, hogy a menetrendi 
-adatokat a saját applikációikba tudják integrálni. Írjunk egy shell script fájlt, amely letölti ezt 
-az adatbázist, és kilistázza belőle azokat az utakat, amelyek a Centrumból indulnak, vagy a Centrumba
-mennek.
+## Feladatok
 
-**Parancsok:**
-wget, unzip (kitömörítésre), cat, grep
+### 1. feladat
+Valósítsuk meg az *1. példa* feladatát, de ezúttal lebegőpontos számokkal!
 
-**Szükséges ellenőrzések:**
-- Ha a letöltendő fájl már egyszer le volt töltve, akkor az újbóli letöltés előtt töröljük az előző 
-verziót!
-- Ha egy mappába már korábban ki lett tömörítve a letöltött állomány, akkor az újbóli kitömörítés
-előtt szabaduljunk meg ennek a mappának a tartalmától!
+### 2. feladat
+Valósítsuk meg a *2. példa* feladatát, de ezúttal ne csak `name_id_pairs.txt` nevű fájlra
+működjön, hanem bármilyen nevű fájlra! A fájl nevét a script bemeneti paraméterként 
+fogadja! Ellenőrizzük, hogy a fájl létezik és olvasható-e, mielőtt a funkciók további részét
+megvalósítjuk!
 
-**Megjegyzés:** A tanszéki gépekről *certificate* problémák miatt a korábbiakban nem volt letölthető
-az adatbázis, ezért egy *github* repository-ba is feltettem. A hozzá tartozó parancs ki van
-kommentezve. Hibaüzenet esetén cseréljük le a jelenlegi url-t a kikommentezettre.
-
-```bash
-if [ -e gtfs.zip ]; then
-    rm gtfs.zip
-fi
-
-if [ -d gtfs ]; then
-    rm -r gtfs
-fi
-
-wget "https://gtfsapi.mvkzrt.hu/gtfs/gtfs.zip"
-# wget https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/gtfs.zip
-unzip gtfs.zip -d gtfs
-cat gtfs/routes.txt | grep "Centrum"
-```
+### 3. feladat
+Valósítsuk meg a *3. példa* feladatát, de ezúttal a Centrum helyett bármelyik végállomást 
+fogadjuk el, és bemeneti paraméterként adjuk át azt a scriptnek. Ha nincs ilyen végállomás,
+írjunk hibaüzenetet!
