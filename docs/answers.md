@@ -99,3 +99,8 @@ Raptor
 3. b
 4. d
 5. c
+
+### 7. kérdéssor
+1. a
+2. c
+3. b
