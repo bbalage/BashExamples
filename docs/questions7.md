@@ -1,5 +1,5 @@
 # 7. Kérdések
-Ellenőrző kérdések a hatodik gyakorlathoz.
+Ellenőrző kérdések a hetedik gyakorlathoz.
 
 ### 1. kérdés
 Mit csinál az alábbi kód?

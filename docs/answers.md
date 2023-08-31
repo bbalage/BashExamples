@@ -104,3 +104,11 @@ Raptor
 1. a
 2. c
 3. b
+
+### 8. kérdéssor
+1. c
+2. d
+3. b
+4. a
+5. d
+6. a
