@@ -10,7 +10,8 @@ tartalommal (legegyszerűbb tehát kopizni).
 ```bash
 mkdir szgyak/lesson4
 cd szgyak/lesson4
-cp ../lesson3/people.csv ./ # bemásolja a fájlt az eredeti néven ebbe a directoryba 
+cp ../lesson3/people.csv ./ # bemásolja a fájlt az eredeti
+                            # néven ebbe a directoryba 
 ```
 
 ## Csővezeték operátor láncolása
@@ -55,7 +56,8 @@ Nézzünk meg néhányat példákon keresztül!
 
 ```bash
 cat people.csv | tail --lines=3
-# A következő parancs ugyanezt csinálja (csak nem kell kiírni, hogy '--lines')
+# A következő parancs ugyanezt csinálja
+# (csak nem kell kiírni, hogy '--lines')
 cat people.csv | tail -3
 ```
 

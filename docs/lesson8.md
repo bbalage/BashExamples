@@ -67,7 +67,8 @@ function add_two_numbers {
     regex="^[0-9]+$"
     if [[ ! $1 =~ $regex || ! $2 =~ $regex ]]; then
         echo "Must be two numbers!" 1>&2
-        return 1 # We use "return", not "exit". "exit" would quit the entire script
+        return 1 # We use "return", not "exit".
+                 # "exit" would quit the entire script
     fi
     echo "$(($1 + $2))"
     # The default return value is 0
@@ -85,10 +86,9 @@ function add_two_numbers {
     regex="^[0-9]+$"
     if [[ ! $1 =~ $regex || ! $2 =~ $regex ]]; then
         echo "Must be two numbers!" 1>&2
-        return 1 # We use "return", not "exit". "exit" would quit the entire script
+        return 1
     fi
     echo "$(($1 + $2))"
-    # The default return value is 0
 }
 
 add_two_numbers 10 20

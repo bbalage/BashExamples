@@ -14,7 +14,6 @@ touch 2.txt
 Ezek után elkezdhetjük az új anyagot!
 
 ## Jogosultságok
----
 
 Az előző órán megtanultuk, hogy hogyan lehet terminálban navigálni a fájlrendszerbe.
 Nem néztük azonban meg, hogy milyen jogosultságok vannak, hogyan lehet ezeket megtekinteni,
@@ -223,7 +222,6 @@ Az alábbi parancsokat tanultuk (csak az elsőt, a `chmod`-ot használtuk érdem
 - `groupadd` új csoportot ad a rendszerhez
 
 ## Feladatok
----
 Önálló gyakorló feladatok.
 
 ### 1. feladat

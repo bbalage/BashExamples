@@ -17,6 +17,7 @@ feltelepíteni, akár virtuális gépen).
 A tanszéki gépeken ennek a jegyzetnek az írásakor Linux Mint van telepítve
 (a Mint egy Linux disztribúció). Ezen felül a következő Linux disztribúciókat
 érdemes megemlíteni:
+
 - **Ubuntu.** A Linux Mintnél mostanra elterjedtebbé váltak a
 különböző Ubuntu verziók (Ubuntu 18.04, 20.04, 22.04; a verziók a kiadásuk éve 
 szerint vannak számozva). Könnyen installálható, felhasználóbarát. Otthoni gyakorláshoz
@@ -139,8 +140,9 @@ working directory tartalmát írja ki.
 ```bash
 cd /
 ls
-# Ha nem akarunk belépni a mappába, csak ki akarjuk írni a tartalmát, akkor
-# ezt az alábbi paranccsal egy lépésben is megtehetjük:
+# Ha nem akarunk belépni a mappába, csak ki akarjuk írni
+# a tartalmát, akkor # ezt az alábbi paranccsal egy lépésben
+# is megtehetjük:
 ls /
 ```
 
@@ -188,7 +190,9 @@ használni.
 ```bash
 cd ~/szgyak/lesson1
 ls -la
-ls -la ~/szgyak/lesson1 # ha így adjuk ki a parancsot, akkor mindegy mi épp a working directory
+ls -la ~/szgyak/lesson1 # ha így adjuk ki a parancsot,
+                        # akkor mindegy mi épp a working
+                        # directory
 ```
 
 Azt látjuk, hogy az `ls` parancsot némileg máshogy adtuk ki, mint eddig.
@@ -212,7 +216,8 @@ Próbáljuk ki az `ls` parancs kapcsolóit!
 ```bash
 ls -l # kötőjellel adjuk meg a kapcsolókat
 ls -a # ez egy másik kapcsoló
-ls -la # ez a két előző kapcsoló kombinálva (mintha mindkettőt kiadtuk volna)
+ls -la # ez a két előző kapcsoló kombinálva
+       # (mintha mindkettőt kiadtuk volna)
 ```
 A manualból megtudhatjuk ezekről a következőket:
 
@@ -235,7 +240,8 @@ mkdir ~/szgyak/lesson1/tmp
 # ha a working directory a ~/szgyak/lesson1 akkor elég ennyi is:
 # mkdir tmp
 ls -a ~/szgyak/lesson1/tmp # full path
-ls -a tmp # relative path; függ a working directory-tól (tehát attól, hogy "hol vagyunk")
+ls -a tmp # relative path; függ a working directory-tól
+          # (tehát attól, hogy "hol vagyunk")
 ```
 
 Azt látjuk. hogy még az üres jegyzéknek is van két bejegyzése: `.` és `..`
@@ -268,7 +274,8 @@ cd ~/szgyak/lesson1
 rmdir tmp
 # ha kihagyjuk a cd-t, akkor természetesen megtehetjük ezt is:
 # rmdir ~/szgyak/lesson1/tmp
-# ugyanaz történik, csak egyik esetben full path, másik esetben relative path a hivatkozás típusa
+# ugyanaz történik, csak egyik esetben full path, másik esetben
+# relative path a hivatkozás típusa
 ```
 
 `rmdir` = remove directory; kellően beszédes név, hogy ne kelljen magyarázni.
@@ -356,7 +363,8 @@ touch assets/textures/readme.txt
 Írassuk ki a mappák tartalmát, karaktergrafikusan rendezett formában!
 
 ```bash
-tree # igen, ennyi a parancs. Adjuk ki a lesson1 mappában!
+tree
+# igen, ennyi a parancs. Adjuk ki a lesson1 mappában!
 ```
 
 A `tree` parancs nem minden rendszerre van telepítve, viszont pont azt csinálja, amire
@@ -424,7 +432,7 @@ egy mappát adunk meg, akkor rekurzívan törli a mappa teljes tartalmát (és m
 lévő mappa tartalmát), mielőtt törli magát a mappát.
 
 ## Összefoglalás
----
+
 A következő parancsokat tanultuk:
 - `cd` megváltoztatja a working directory-t (konyhanyelven belép egy másik mappába).
 - `pwd` kiírja a jelenlegi working directory-t (konyhanyelven azt a directory-t, amiben vagyunk).
@@ -440,7 +448,7 @@ ha még a fájl nem létezik, akkor létrehozza azt.
 - `man` manual entry megnyitása egy parancshoz.
 
 ## Feladatok
----
+
 Önálló gyakorló feladatok.
 
 ### 1. feladat

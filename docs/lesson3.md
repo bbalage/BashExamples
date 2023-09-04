@@ -1,4 +1,5 @@
-# 3. óra
+3. óra
+===
 
 Ezen az órán új parancsokat fogunk tanulni, és megtanuljuk kombinálni őket. Mielőtt
 azonban belefogunk a parancsok kombinálásába, tanuljunk meg terminálban fájlokat
@@ -141,13 +142,10 @@ lépjünk bele! Mindezt természetesen oldjuk meg egyetlen sor parancsban!
 cd dir_3 || mkdir dir_3 && cd dir_3
 ```
 
----
 A fönti példákat tovább lehetne kombinálni, de nem érdemes. Már a három részből álló
 kombinált parancsok is ritkák, ugyanis ránézésre nem a legjobban érthetők. Gyakrabban 
 használjuk a stream-ek (folyamok) átvezetését egyikből másikba. Nézzünk erre is néhány
 példát!
-
----
 
 ### 5. példa
 Hozzunk létre egy fájlt xyz.txt néven, és írjuk bele `echo` segítségével a nevünket!
@@ -161,7 +159,8 @@ Megjegyzendő, hogy a `touch` valójában felesleges, mert a második parancsná
 létezik a fájl, akkor a stream irányítás létrehozza.
 
 ```bash
-echo "Johnny Bravo" > xyz.txt # Ha xyz.txt nem létezik, akkor itt létrejön
+echo "Johnny Bravo" > xyz.txt # Ha xyz.txt nem létezik,
+                              # akkor itt létrejön
 ```
 
 A fájl tartalmát megnézhetjük `nano` vagy `cat` segítségével is.
@@ -245,7 +244,8 @@ két parancs teljesen ugyanazt csinálja:
 
 ```bash
 ls > random_something.txt # stdout csatornát beleírányítja a fájlba
-ls 1> random_something.txt # szintén az stdout-ot irányítja bele, csak ki is írtuk
+ls 1> random_something.txt # szintén az stdout-ot irányítja bele,
+                           # csak ki is írtuk
 ```
 
 Alapértelmezettként `>` és `>>` operátorok az 1-es (standard output) csatornát 
@@ -254,7 +254,6 @@ irányítják át.
 A csatorna irányításokra később vissza fogunk térni, mikor mi magunk is írunk
 hibaüzeneteket.
 
----
 ## grep parancs
 A harmadik féle parancskombinálás a `|` jel (amit bash nyelvben "csővezeték operátor"
 néven is ismernek) által lehetséges. **Ezt használják leggyakrabban.** Mint azt 

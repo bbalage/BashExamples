@@ -27,14 +27,16 @@ mkdir dir_1 || mkdir dir_1 && echo "OK"
 Mit ír ki az alábbi parancs, ha `dir_1` nem létezik (az esetleges hibaüzenet nélkül)?
 
 ```bash
-cd dir_1 || echo "Making directory" && mkdir dir_1 && echo "OK" || echo "Problem"
+cd dir_1 || echo "Making directory" && mkdir dir_1\
+&& echo "OK" || echo "Problem"
 ```
 
 ### 5. kérdés
 Mit ír ki az alábbi parancs, ha `dir_1` létezik (az esetleges hibaüzenet nélkül)?
 
 ```bash
-cd dir_1 || echo "Making directory" && mkdir dir_1 && echo "OK" || echo "Problem"
+cd dir_1 || echo "Making directory" && mkdir dir_1\
+&& echo "OK" || echo "Problem"
 ```
 
 ### 6. kérdés
@@ -42,7 +44,8 @@ Mit ír ki az alábbi parancs, ha `dir_1` létezik, de nincs jogunk belépni
 (az esetleges hibaüzenet nélkül)?
 
 ```bash
-cd dir_1 || echo "Making directory" && mkdir dir_1 && echo "OK" || echo "Problem"
+cd dir_1 || echo "Making directory" && mkdir dir_1\
+&& echo "OK" || echo "Problem"
 ```
 
 ### 7. kérdés

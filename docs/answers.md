@@ -60,7 +60,7 @@
 13. 1
 14. 6
 
-### 4. kérdéssor
+## 4. kérdéssor
 1. c
 2. a
 3. semmit, hiba (-E kapcsoló lemaradt)
@@ -81,7 +81,7 @@ Raptor
 10. Thor,dog,12
 11. Nincs válasz, ez egy bónusz.
 
-### 5. kérdéssor
+## 5. kérdéssor
 1. c
 2. a
 3. x: $x
@@ -93,19 +93,19 @@ Raptor
 9. b
 10. 31.9
 
-### 6. kérdéssor
+## 6. kérdéssor
 1. a
 2. d
 3. b
 4. d
 5. c
 
-### 7. kérdéssor
+## 7. kérdéssor
 1. a
 2. c
 3. b
 
-### 8. kérdéssor
+## 8. kérdéssor
 1. c
 2. d
 3. b

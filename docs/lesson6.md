@@ -310,7 +310,8 @@ előtt szabaduljunk meg ennek a mappának a tartalmától!
 
 **Megjegyzés:** A tanszéki gépekről *certificate* problémák miatt a korábbiakban nem volt letölthető
 az adatbázis, ezért egy *github* repository-ba is feltettem. A hozzá tartozó parancs ki van
-kommentezve. Hibaüzenet esetén cseréljük le a jelenlegi url-t a kikommentezettre.
+kommentezve. Hibaüzenet esetén cseréljük le a jelenlegi url-t a következőre:
+*https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/gtfs.zip*
 
 ```bash
 #!/bin/bash
@@ -324,7 +325,6 @@ if [ -d gtfs ]; then
 fi
 
 wget "https://gtfsapi.mvkzrt.hu/gtfs/gtfs.zip"
-# wget https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/gtfs.zip
 unzip gtfs.zip -d gtfs # próbáljuk ki -d kapcsoló nélkül is...
 cat gtfs/routes.txt | grep "Centrum"
 ```

@@ -162,7 +162,8 @@ kiírja a tartalmát:
 ```bash
 declare -a arr=(12 3 6)
 
-for ((i=0;i<${#arr[*]};++i)); do # ${#arr[*]} megadja nekünk a tömbelemek számát
+# ${#arr[*]} megadja nekünk a tömbelemek számát
+for ((i=0;i<${#arr[*]};++i)); do 
     echo ${arr[i]}
 done
 ```
@@ -173,7 +174,8 @@ A `for` ciklusnak akad egy másik, hasznos szintaxisa is, amit `for-each` ciklus
 ```bash
 declare -a arr=(12 3 6)
 
-for element in ${arr[*]}; do # ${arr[*]} a tömb minden elemét adja vissza
+# ${arr[*]} a tömb minden elemét adja vissza
+for element in ${arr[*]}; do 
     echo $element
 done
 ```
@@ -198,7 +200,8 @@ paramétert, és hogy az tényleg egy létező directory-e!
 ```bash
 #!/bin/bash
 
-if [[ -z $1 ]]; then # Itt azt nézzük, hogy üres-e a változó
+# Itt azt nézzük, hogy üres-e a változó
+if [[ -z $1 ]]; then
     echo "No input given." 1>&2
     exit 1
 fi
@@ -226,7 +229,8 @@ Töltsünk fel egy 10 elemű tömböt véletlen számokkal, majd menjünk végig
 declare -a arr
 
 for ((i=0; i<10; ++i)); do
-    arr[$i]=$((RANDOM % 100)) # random number from 0 to 99
+    # random szám 0-tól 99-ig
+    arr[$i]=$((RANDOM % 100))
     printf "${arr[$i]} "
 done
 echo
@@ -269,7 +273,8 @@ fi
 declare -a arr
 
 for ((i=0; i<N; ++i)); do
-    arr[$i]=$((RANDOM % 100 + 1)) # random number from 1 to 100
+    # random szám 1-től 100-ig
+    arr[$i]=$((RANDOM % 100 + 1))
     printf "${arr[$i]} "
 done
 echo
@@ -309,10 +314,8 @@ számozást ne szakítsuk meg!
 
 ### 3. feladat
 Írjunk egy scriptet, ami letölti a következő .zip fájlt az internetről:
+*https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/nums.zip*
 
-```
-https://raw.githubusercontent.com/bbalage/BashExamples/master/assets/nums.zip
-```
 
 A script tömörítse ki a mappát, majd másolja át az összes `.txt` fájlt belőle egy 
 `out_nums` mappába, de úgy, hogy a `.txt` fájlok minden olyan sorát, ahol szám van,

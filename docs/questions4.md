@@ -18,7 +18,7 @@ c. Egy formális nyelvi leírás, amely megmondja, hogy a felhasználói input h
 d. Egy keresőmotornak megadható szöveges kifejezés, amellyel pontosabban lehet keresni egy
 szöveges inputban.
 
-----
+---
 Legyen a következő az `animals.csv` fájl tartalma:
 
 ```
